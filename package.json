@@ -1,5 +1,5 @@
 {
-  "name": "react-redux-vs-context",
+  "name": "poker-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -78,7 +78,9 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "lint": "eslint 'src/{app,components,reducers,values}/**/*.{tsx,ts}'",
+    "env-info": "eslint --env-info"
   },
   "eslintConfig": {
     "extends": [
@@ -99,6 +101,7 @@
     ]
   },
   "devDependencies": {
+    "eslint-config-airbnb": "^18.2.1",
     "redux-devtools": "^3.7.0"
   },
   "jest": {

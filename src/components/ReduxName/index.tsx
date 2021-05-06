@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import values from 'values';
 import {
   selectName,
   change,
 } from '../../reducers/reduxName';
-import values from 'values';
 
 const ReduxName = () => {
   const name = useSelector(selectName);
@@ -16,10 +16,9 @@ const ReduxName = () => {
       <input
         value={name}
         onChange={(event) => dispatch(change({ name: event.target.value }))}
-      >
-      </input>
+      />
     </div>
-  )
+  );
 };
 
 export default ReduxName;

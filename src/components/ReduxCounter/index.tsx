@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   decrement,
   increment,
-  incrementByAmount,
-  incrementAsync,
+  incrementAsync, incrementByAmount,
   selectCount,
 } from '../../reducers/reduxCounter';
 
@@ -17,6 +16,7 @@ export default function ReduxCounter() {
     <div style={{ marginTop: 100 }}>
       <div>
         <button
+          type="button"
           style={{ marginRight: 20 }}
           aria-label="Decrement value"
           onClick={() => dispatch(decrement())}
@@ -25,6 +25,7 @@ export default function ReduxCounter() {
         </button>
         <span>{count}</span>
         <button
+          type="button"
           style={{ marginLeft: 20 }}
           aria-label="Increment value"
           onClick={() => dispatch(increment())}
@@ -36,16 +37,16 @@ export default function ReduxCounter() {
         <input
           aria-label="Set increment amount"
           value={incrementAmount}
-          onChange={e => setIncrementAmount(e.target.value)}
+          onChange={(e) => setIncrementAmount(e.target.value)}
         />
         <button
-          onClick={() =>
-            dispatch(incrementByAmount(Number(incrementAmount) || 0))
-          }
+          type="button"
+          onClick={() => dispatch(incrementByAmount(Number(incrementAmount) || 0))}
         >
           Add Amount
         </button>
         <button
+          type="button"
           onClick={() => dispatch(incrementAsync(Number(incrementAmount) || 0))}
         >
           Add Async
