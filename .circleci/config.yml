@@ -13,17 +13,13 @@ orbs:
   aws-s3: circleci/aws-s3@2.0
   aws-cli: circleci/aws-cli@2.0.0
 
-jobs:
-  build:
+executors:
+  node:
     docker:
       - image: circleci/node:12
 
-    working_directory: ~/repo
-
-    environment:
-      # ENV_FILE_PATH: packages/zenta-frontend/.env
-      # CI: false
-
+commands:
+  install:
     steps:
       - checkout
 
@@ -45,6 +41,30 @@ jobs:
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+
+  lint:
+    steps:
+      - run:
+          name: Linting
+          command: npm run lint
+
+  test:
+    steps:
+      - run:
+          name: Testing
+          command: CI=${CI} npm run test:ci
+
+jobs:
+  build:
+    executor: node
+    working_directory: ~/repo
+    environment:
+      CI: true
+      # ENV_FILE_PATH: packages/zenta-frontend/.env
+    steps:
+      - install 
+      - lint
+      - test
 
       # - run:
       #     name: Create env variables

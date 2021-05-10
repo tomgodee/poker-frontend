@@ -10,6 +10,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "@types/jest": "26.0.15",
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
@@ -27,6 +28,7 @@
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
     "eslint": "^7.11.0",
+    "eslint-config-airbnb": "^18.2.1",
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-flowtype": "^5.2.0",
     "eslint-plugin-import": "^2.22.1",
@@ -75,9 +77,10 @@
     "workbox-webpack-plugin": "5.1.4"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "yarn install && node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js",
+    "test": "node scripts/test.js --testRunner=/Users/Home/Workspace/poker-frontend/node_modules/jest-circus/runner.js",
+    "test:ci": "CI=true node scripts/test.js --testRunner=/home/circleci/repo/node_modules/jest-circus/runner.js",
     "test:converage": "npm test -- --coverage",
     "lint": "eslint 'src/{app,components,reducers,values}/**/*.{tsx,ts}'",
     "env-info": "eslint --env-info"
@@ -101,8 +104,6 @@
     ]
   },
   "devDependencies": {
-    "@types/jest": "26.0.15",
-    "eslint-config-airbnb": "^18.2.1",
     "redux-devtools": "^3.7.0"
   },
   "jest": {
@@ -124,7 +125,7 @@
       "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
     ],
     "testEnvironment": "jsdom",
-    "testRunner": "/Users/Home/Workspace/react-redux-vs-context/node_modules/jest-circus/runner.js",
+    "testRunner": "/Users/Home/Workspace/poker-frontend/node_modules/jest-circus/runner.js",
     "transform": {
       "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
