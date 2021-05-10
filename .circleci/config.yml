@@ -1,0 +1,79 @@
+# This config uses the `.circleci/extended/orb-test.yml` as its base, and then publishes the app to S3.
+# The workflow contained here demonstrates a practical application of `post-steps`
+# and using workspace persistence
+version: 2.1
+
+orbs:
+  node: circleci/node@4.3.0
+  # The S3 orb will setup the aws-cli and quickly copy or sync anything to s3.
+  # Orbs reduce the amount of configuration required for common tasks.
+  # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/aws-s3
+  # NOTE: Environment variables containing the necessary secrets can be setup in the CircleCI UI
+  # See here https://circleci.com/docs/2.0/env-vars/#setting-an-environment-variable-in-a-project
+  aws-s3: circleci/aws-s3@2.0
+  aws-cli: circleci/aws-cli@2.0.0
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:12
+
+    working_directory: ~/repo
+
+    environment:
+      # ENV_FILE_PATH: packages/zenta-frontend/.env
+      # CI: false
+
+    steps:
+      - checkout
+
+      - run:
+          name: Show current branch
+          command: 'echo We are on branch: ${CIRCLE_BRANCH}'
+
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
+
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+      # - run:
+      #     name: Create env variables
+      #     command: |
+      #       echo "REACT_APP_FRONTEND_URL=http://13.212.222.248:8090" >> ${ENV_FILE_PATH}
+      #       echo "REACT_APP_FRONTEND_CLIENT_ID=2" >> ${ENV_FILE_PATH}
+      #       echo "REACT_APP_FRONTEND_CLIENT_SECRET=lkB4qc6ij5eR9ZrIzOgKpnQRjFC6aKgnLa4MKRMl" >> ${ENV_FILE_PATH}
+
+      # - run: 
+      #     name: Build project
+      #     command: npm run build
+      # - persist_to_workspace:
+      #     root: ~/repo
+      #     paths:
+      #       - packages/zenta-frontend/build
+
+workflows:
+  version: 2
+  deploy-dev:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - develop
+      # - deploy:
+      #     requires:
+      #       - build
+      #     filters:
+      #       branches:
+      #         only: 
+      #           - develop
