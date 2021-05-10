@@ -1,6 +1,6 @@
 import React from 'react';
-import ReduxCounter from '../ReduxCounter';
-import ReduxName from '../ReduxName';
+import ReduxCounter from '../../components/ReduxCounter';
+import ReduxName from '../../components/ReduxName';
 
 const Redux = () => (
   <div>

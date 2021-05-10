@@ -1,14 +1,17 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    // This is included in all configs shared by this plugin, so can be omitted if extending them.
+    "jest/globals": true
   },
   "extends": [
     "airbnb",
     "plugin:react/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:import/typescript"
+    "plugin:import/typescript",
+    "plugin:jest/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -20,7 +23,8 @@
   },
   "plugins": [
     "react",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "jest"
   ],
   "settings": {
     "import/resolver": {
@@ -39,6 +43,7 @@
       "props": true,
       "ignorePropertyModificationsForRegex": ["(s|S)tate$"]
     }],
-    "object-curly-newline": "off"
+    "object-curly-newline": "off",
+    "jest/no-export": "off"
   }
 }
