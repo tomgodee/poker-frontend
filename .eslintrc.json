@@ -45,6 +45,7 @@
       "ignorePropertyModificationsForRegex": ["(s|S)tate$"]
     }],
     "object-curly-newline": "off",
-    "jest/no-export": "off"
+    "jest/no-export": "off",
+    "no-console": "off"
   }
 }

@@ -82,7 +82,7 @@
     "test": "node scripts/test.js --testRunner=/Users/Home/Workspace/poker-frontend/node_modules/jest-circus/runner.js",
     "test:ci": "CI=true node scripts/test.js --testRunner=/home/circleci/repo/node_modules/jest-circus/runner.js",
     "test:converage": "npm test -- --coverage",
-    "lint": "eslint 'src/{app,components,reducers,values}/**/*.{tsx,ts}'",
+    "lint": "eslint 'src/{app,components,pages,reducers,values}/**/*.{tsx,ts}'",
     "env-info": "eslint --env-info"
   },
   "eslintConfig": {

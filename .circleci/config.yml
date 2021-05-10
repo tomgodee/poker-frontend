@@ -54,32 +54,50 @@ commands:
           name: Testing
           command: CI=${CI} npm run test:ci
 
+  build:
+    steps:
+      - run: 
+          name: Build project
+          command: npm run build
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - build
+
+  upload:
+    steps:
+      - attach_workspace:
+          at: ~/repo
+
+      - aws-cli/setup:
+          profile-name: default
+
+      # - run:
+      #     name: Upload to AWS S3
+      #     command: |
+      #       aws s3 sync --delete packages/zenta-frontend/build/ s3://${FRONTEND_BUCKET_DEV}/frontend
+      #       aws cloudfront create-invalidation --distribution-id $FRONTEND_DEV_CF_DIST_ID --paths "/*"
+      #       echo "Successfully uploaded to s3://${FRONTEND_BUCKET_DEV}/"
+      #       curl -X POST -H 'Content-type: application/json' --data '{"text":"Deploy latest frontend to development successfully."}' $SLACK_WEBHOOK_URL
+
 jobs:
   build:
     executor: node
     working_directory: ~/repo
     environment:
       CI: true
-      # ENV_FILE_PATH: packages/zenta-frontend/.env
     steps:
-      - install 
+      - install
       - lint
       - test
+      - build
 
-      # - run:
-      #     name: Create env variables
-      #     command: |
-      #       echo "REACT_APP_FRONTEND_URL=http://13.212.222.248:8090" >> ${ENV_FILE_PATH}
-      #       echo "REACT_APP_FRONTEND_CLIENT_ID=2" >> ${ENV_FILE_PATH}
-      #       echo "REACT_APP_FRONTEND_CLIENT_SECRET=lkB4qc6ij5eR9ZrIzOgKpnQRjFC6aKgnLa4MKRMl" >> ${ENV_FILE_PATH}
-
-      # - run: 
-      #     name: Build project
-      #     command: npm run build
-      # - persist_to_workspace:
-      #     root: ~/repo
-      #     paths:
-      #       - packages/zenta-frontend/build
+  deploy:
+    executor: node
+    working_directory: ~/repo
+    environment:
+    steps:
+      - upload
 
 workflows:
   version: 2
@@ -90,10 +108,10 @@ workflows:
             branches:
               only:
                 - develop
-      # - deploy:
-      #     requires:
-      #       - build
-      #     filters:
-      #       branches:
-      #         only: 
-      #           - develop
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: 
+                - develop
