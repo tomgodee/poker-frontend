@@ -7,7 +7,7 @@ interface NameAction {
 export const slice = createSlice({
   name: 'name',
   initialState: {
-    value: 'tom',
+    value: 'tom is configuring ci/cd',
   },
   reducers: {
     change: (state, action: PayloadAction<NameAction>) => {

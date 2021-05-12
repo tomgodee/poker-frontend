@@ -10,7 +10,7 @@ orbs:
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/aws-s3
   # NOTE: Environment variables containing the necessary secrets can be setup in the CircleCI UI
   # See here https://circleci.com/docs/2.0/env-vars/#setting-an-environment-variable-in-a-project
-  aws-s3: circleci/aws-s3@2.0
+  aws-s3: circleci/aws-s3@1.0.9
   aws-cli: circleci/aws-cli@2.0.0
 
 executors:
@@ -71,6 +71,12 @@ commands:
 
       - aws-cli/setup:
           profile-name: default
+
+      - aws-s3/sync:
+          from: build/
+          to: 's3://${BUCKET}'
+          arguments: | # Optional arguments
+            --delete
 
       # - run:
       #     name: Upload to AWS S3
