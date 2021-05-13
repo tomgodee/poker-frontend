@@ -19,10 +19,10 @@
   "scripts": {
     "start:admin": "cd packages/admin && node scripts/start.js",
     "build:admin": "cd packages/admin && node scripts/build.js",
-    "lint:admin": "eslint 'packages/admin/src/{app,components,pages,reducers,values}/**/*.{tsx,ts}'",
+    "lint:admin": "eslint 'packages/admin/src/{store,components,pages,reducers,values,utils}/**/*.{tsx,ts}'",
     "start:frontend": "cd packages/frontend && node scripts/start.js",
     "build:frontend": "cd packages/frontend && node scripts/build.js",
-    "lint:frontend": "eslint 'packages/frontend/src/{app,components,pages,reducers,values}/**/*.{tsx,ts}'",
+    "lint:frontend": "eslint 'packages/frontend/src/{store,components,pages,reducers,values,utils}/**/*.{tsx,ts}'",
     "test": "cd packages/frontend && node scripts/test.js",
     "test:ci": "cd packages/frontend && CI=true node scripts/test.js --testRunner=/home/circleci/repo/node_modules/jest-circus/runner.js",
     "test:coverage": "npm test -- --coverage",
