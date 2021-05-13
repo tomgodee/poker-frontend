@@ -46,6 +46,7 @@
     }],
     "object-curly-newline": "off",
     "jest/no-export": "off",
+    "arrow-body-style": "off",
     "no-console": "off"
   }
 }

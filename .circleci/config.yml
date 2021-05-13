@@ -43,10 +43,13 @@ commands:
             - ~/.cache/yarn
 
   lint:
+    parameters:
+      package:
+        type: string
     steps:
       - run:
           name: Linting
-          command: npm run lint
+          command: npm run lint:<<parameters.package>>
 
   test:
     steps:
@@ -55,16 +58,24 @@ commands:
           command: CI=${CI} npm run test:ci
 
   build:
+    parameters:
+      package:
+        type: string
     steps:
       - run: 
           name: Build project
-          command: npm run build
+          command: npm run build:<<parameters.package>>
       - persist_to_workspace:
           root: ~/repo
           paths:
-            - build
+            - packages/<<parameters.package>>/build
 
   upload:
+    parameters:
+      package:
+        type: string
+      bucket: 
+        type: string
     steps:
       - attach_workspace:
           at: ~/repo
@@ -73,8 +84,8 @@ commands:
           profile-name: default
 
       - aws-s3/sync:
-          from: build/
-          to: 's3://${BUCKET}'
+          from: packages/<<parameters.package>>/build
+          to: 's3://<<parameters.bucket>>'
           arguments: | # Optional arguments
             --delete
 
@@ -88,36 +99,71 @@ commands:
 
 jobs:
   build:
+    parameters:
+      package: 
+        default: "frontend"
+        type: string
     executor: node
     working_directory: ~/repo
     environment:
-      CI: true
+      # CI: true
     steps:
       - install
-      - lint
+      - lint:
+          package: <<parameters.package>>
       - test
-      - build
+      - build:
+          package: <<parameters.package>>
 
   deploy:
+    parameters:
+      package: 
+        default: "frontend"
+        type: string
+      bucket:
+        type: string        
     executor: node
     working_directory: ~/repo
     environment:
     steps:
-      - upload
+      - upload:
+          package: <<parameters.package>>
+          bucket: <<parameters.bucket>>
 
 workflows:
   version: 2
-  deploy-dev:
+  deploy-frontend-dev:
     jobs:
       - build:
+          package: "frontend"
           filters:
             branches:
               only:
                 - develop
       - deploy:
+          package: "frontend"
+          bucket: ${FRONTEND_BUCKET}
           requires:
             - build
           filters:
             branches:
               only: 
                 - develop
+
+  deploy-admin-dev:
+    jobs:
+      - build:
+          package: "admin"
+          filters:
+            branches:
+              only:
+                - admin
+      - deploy:
+          package: "admin"
+          bucket: ${ADMIN_BUCKET}
+          requires:
+            - build
+          filters:
+            branches:
+              only: 
+                - admin
