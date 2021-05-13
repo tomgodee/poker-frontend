@@ -19,3 +19,13 @@ yarn install
 put .eslintrc.json on each package
 restart vscode
 can start again
+
+config circleci
+  - install
+  - linting
+  - testing
+  - building
+  - upload to s3
+create aws s3 buckets for each package
+  - allow public objects permission
+  - enable static web hosting
