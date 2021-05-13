@@ -1,4 +1,8 @@
-public
-config
-scripts
-build
+packages/admin/build
+packages/admin/config
+packages/admin/public
+packages/admin/scripts
+packages/frontend/build
+packages/frontend/config
+packages/frontend/public
+packages/frontend/scripts

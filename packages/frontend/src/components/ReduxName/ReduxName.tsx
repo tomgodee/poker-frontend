@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import values from 'values';
+// import values from 'values';
 import {
   selectName,
   change,
@@ -9,7 +9,7 @@ import {
 const ReduxName = () => {
   const name = useSelector(selectName);
   const dispatch = useDispatch();
-  console.log('values', values);
+  // console.log('values', values);
 
   return (
     <div>
