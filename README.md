@@ -29,3 +29,6 @@ config circleci
 create aws s3 buckets for each package
   - allow public objects permission
   - enable static web hosting
+
+Creating protected route 
+  - https://stackoverflow.com/questions/47747754/how-to-rewrite-the-protected-private-route-using-typescript-and-react-router-4
