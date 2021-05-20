@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 // import { Typography } from '@material-ui/core';
-import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import {
   LoginContainer as Container,
   LoginContainerGrid as ContainerGrid,
@@ -22,7 +22,9 @@ const BASIC_INPUT_VALIDATION = { required: true, maxLength: 2 };
 const USERNAME = 'username';
 const PASSWORD = 'password';
 
+// eslint-disable-next-line no-unused-vars
 const Login = (props: any) => {
+  // eslint-disable-next-line no-unused-vars
   const { handleSubmit, control, formState: { errors } } = useForm<FormInputs>({
     defaultValues: {
       username: '',
@@ -85,7 +87,6 @@ const Login = (props: any) => {
                     onBlur={field.onBlur}
                     inputRef={field.ref}
                     error={fieldState.invalid}
-                    autoFocus
                     color="primary"
                     label="Password"
                     id={PASSWORD}
