@@ -1,6 +1,9 @@
-import React from 'react';
-// import { Typography } from '@material-ui/core';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
+import { ACCESS_TOKEN } from '../../constants/localStorage';
+import { selectUser, login } from '../../reducers/user';
 import {
   LoginContainer as Container,
   LoginContainerGrid as ContainerGrid,
@@ -12,20 +15,19 @@ import {
   LoginForm as Form,
 } from './styles';
 import { logo } from '../../assets';
+import { LoginFormInputs } from './types';
 
-interface FormInputs {
-  username: string;
-  password: string;
-}
-
-const BASIC_INPUT_VALIDATION = { required: true, maxLength: 2 };
+const BASIC_INPUT_VALIDATION = { required: true, maxLength: 255 };
 const USERNAME = 'username';
 const PASSWORD = 'password';
 
-// eslint-disable-next-line no-unused-vars
-const Login = (props: any) => {
+const Login = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const user = useSelector(selectUser);
+
   // eslint-disable-next-line no-unused-vars
-  const { handleSubmit, control, formState: { errors } } = useForm<FormInputs>({
+  const { handleSubmit, control, formState: { errors } } = useForm<LoginFormInputs>({
     defaultValues: {
       username: '',
       password: '',
@@ -34,9 +36,19 @@ const Login = (props: any) => {
     shouldFocusError: true,
   });
 
-  const submitHandler = (data: FormInputs) => {
-    console.log('aa', data);
+  const submitHandler = (data: LoginFormInputs) => {
+    dispatch(login(data));
   };
+
+  useEffect(() => {
+    if (localStorage.getItem(ACCESS_TOKEN)) {
+      // fetch user with the token
+      history.push('/');
+    }
+    if (user.id) {
+      history.push('/');
+    }
+  }, [user]);
 
   return (
     <Container>
@@ -55,13 +67,14 @@ const Login = (props: any) => {
               name={USERNAME}
               control={control}
               render={({ field, fieldState }) => {
+                const error = fieldState.invalid || Boolean(user.error);
                 return (
                   <TextField
                     value={field.value}
                     onChange={(e) => field.onChange(e.target.value.trim())}
                     onBlur={field.onBlur}
                     inputRef={field.ref}
-                    error={fieldState.invalid}
+                    error={error}
                     autoFocus
                     color="primary"
                     label="Username"
@@ -70,7 +83,7 @@ const Login = (props: any) => {
                     required
                     type="text"
                     variant="outlined"
-                    helperText={fieldState.invalid ? 'Incorrect' : ''}
+                    helperText={error ? 'Incorrect input' : ''}
                   />
                 );
               }}
@@ -80,13 +93,14 @@ const Login = (props: any) => {
               name={PASSWORD}
               control={control}
               render={({ field, fieldState }) => {
+                const error = fieldState.invalid || Boolean(user.error);
                 return (
                   <TextField
                     value={field.value}
                     onChange={(e) => field.onChange(e.target.value.trim())}
                     onBlur={field.onBlur}
                     inputRef={field.ref}
-                    error={fieldState.invalid}
+                    error={error}
                     color="primary"
                     label="Password"
                     id={PASSWORD}
@@ -94,7 +108,7 @@ const Login = (props: any) => {
                     required
                     type="password"
                     variant="outlined"
-                    helperText={fieldState.invalid ? 'Incorrect' : ''}
+                    helperText={error ? 'Incorrect input' : ''}
                   />
                 );
               }}

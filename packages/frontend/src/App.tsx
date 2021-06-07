@@ -16,7 +16,7 @@ function App() {
             <Switch>
               <Route path="/login" component={Login} />
               <Route path="/redux-example" component={ReduxPage} />
-              <PrivateRoute path="/protected" component={ReduxPage} />
+              <PrivateRoute path="/" component={ReduxPage} />
             </Switch>
           </BrowserRouter>
         </ThemeProvider>
