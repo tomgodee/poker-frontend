@@ -5,6 +5,6 @@ const baseService = axios.create({
   timeout: 5000,
 });
 
-// baseService.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+// baseService.defaults.headers.commom.Authorization = 'aaa';
 
 export default baseService;

@@ -14,6 +14,11 @@ export const login = createAsyncThunk('user/login', async (data: LoginFormInputs
   return response.data;
 });
 
+export const verify = createAsyncThunk('user', async (token: string) => {
+  const response = await authenticationService.verify(token);
+  return response.data;
+});
+
 export const slice = createSlice({
   name: 'user',
   initialState: {
@@ -44,6 +49,19 @@ export const slice = createSlice({
       localStorage.setItem(ACCESS_TOKEN, action.payload.accessToken);
     },
     [login.rejected.toString()]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
+    [verify.pending.toString()]: (state) => {
+      state.status = 'loading';
+    },
+    [verify.fulfilled.toString()]: (state, action) => {
+      state.status = 'succeeded';
+      state.name = action.payload.name;
+      state.money = action.payload.money;
+      state.id = action.payload.id;
+    },
+    [verify.rejected.toString()]: (state, action) => {
       state.status = 'failed';
       state.error = action.error.message;
     },

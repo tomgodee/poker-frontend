@@ -41,11 +41,8 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem(ACCESS_TOKEN)) {
-      // fetch user with the token
-      history.push('/');
-    }
-    if (user.id) {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    if (accessToken) {
       history.push('/');
     }
   }, [user]);
