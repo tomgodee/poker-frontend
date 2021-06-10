@@ -1,6 +1,6 @@
 // import { render, screen } from '@testing-library/react';
-import utils from '../utils';
+import { sum } from '../utils/helpers';
 
 test('if jest is working', () => {
-  expect(utils.sum(1, 2)).toBe(3);
+  expect(sum(1, 2)).toBe(3);
 });

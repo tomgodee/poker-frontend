@@ -32,10 +32,14 @@ export const FlexContainer = styled.div`
   display: flex;
 `;
 
+export const ContentContainer = styled.div`
+  display: flex;
+  flex: 1 0 auto;
+`;
+
 export const SideNavContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 240px;
   height: 100%;
   border: 2px solid ${green};
   border-top: 0px;
@@ -44,13 +48,13 @@ export const SideNavContainer = styled.div`
 
 export const SideNavItem = styled(Button)`
   padding: 12px;
+  width: 240px;
 `;
 
 export const DashboardDrawer = styled(Drawer)`
   position: relative;
   & > .MuiDrawer-paper {
     top: 65px;
-    width: 240px;
   }
 `;
 

@@ -33,8 +33,16 @@ create aws s3 buckets for each package
 Creating protected route 
   - https://stackoverflow.com/questions/47747754/how-to-rewrite-the-protected-private-route-using-typescript-and-react-router-4
 
-xs, extra-small: 0px
-sm, small: 600px
-md, medium: 960px
-lg, large: 1280px
-xl, extra-large: 1920px
+Breakpoints:
+  - xs, extra-small: 0px
+  - sm, small: 600px
+  - md, medium: 960px
+  - lg, large: 1280px
+  - xl, extra-large: 1920px
+
+To make material-UI work with styled-component and typescript:
+  - https://github.com/mui-org/material-ui/issues/13921#issuecomment-484133463
+
+When updating a state that depends on its previous value consider using useReducer hook:
+  - https://stackoverflow.com/a/62541474/9725161
+  - https://reactjs.org/docs/hooks-reference.html#usereducer

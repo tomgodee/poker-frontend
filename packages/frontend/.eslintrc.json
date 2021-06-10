@@ -47,6 +47,10 @@
     "object-curly-newline": "off",
     "jest/no-export": "off",
     "arrow-body-style": "off",
-    "no-console": "off"
+    "no-console": "off",
+    "camelcase": "off",
+    "no-unused-vars": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "max-len": "off"
   }
 }

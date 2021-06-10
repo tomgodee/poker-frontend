@@ -1,5 +1,8 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import { PaletteColorOptions } from '@material-ui/core';
+// import type {} from '@material-ui/lab/themeAugmentation';
+import {
+  PaletteColorOptions,
+} from '@material-ui/core';
 import orange from '@material-ui/core/colors/orange';
 import { green, rose, blusSapphire, mintCream } from './colors';
 
@@ -21,7 +24,10 @@ const error = {
   main: rose,
 };
 
-const theme = createMuiTheme({
+// TODO: export default causes a parse error here ???
+// Due to https://material-ui.com/components/about-the-lab/#typescript
+// eslint-disable-next-line import/prefer-default-export
+export const theme = createMuiTheme({
   palette: {
     primary: primary as PaletteColorOptions,
     secondary: secondary as PaletteColorOptions,
@@ -35,10 +41,4 @@ const theme = createMuiTheme({
     // E.g., shift from Red 500 to Red 300 or Red 700.
     tonalOffset: 0.2,
   },
-  // typography: {
-  //   fontSize: 10,
-  //   htmlFontSize: 16,
-  // },
 });
-
-export default theme;

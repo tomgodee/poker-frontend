@@ -43,7 +43,7 @@ const Login = () => {
   useEffect(() => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     if (accessToken) {
-      history.push('/');
+      history.push('/roomlist');
     }
   }, [user]);
 

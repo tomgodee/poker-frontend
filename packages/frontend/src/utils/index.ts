@@ -1,3 +1,5 @@
-import * as utils from './utils';
+import helpers from './helpers';
 
-export default utils;
+export default {
+  helpers,
+};

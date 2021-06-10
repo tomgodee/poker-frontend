@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory, Switch, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useHistory, Switch, Route, Redirect } from 'react-router-dom';
 import {
   Divider,
 } from '@material-ui/core';
 import { ACCESS_TOKEN } from '../../constants/localStorage';
 import ReduxPage from '../ReduxPage';
 import RoomList from '../RoomList';
-import { verify, selectUser } from '../../reducers/user';
+import Room from '../Room';
+import { verify } from '../../reducers/user';
 import {
   HeaderAccountCircle as AccountCircle,
   Header,
   FlexContainer,
+  ContentContainer,
   HeaderProfileContainer,
   SideNavContainer,
   SideNavItem,
@@ -29,7 +31,7 @@ import {
 const Dashboard = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const user = useSelector(selectUser);
+  // const user = useSelector(selectUser);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -51,10 +53,6 @@ const Dashboard = () => {
       dispatch(verify(accessToken));
     }
   }, []);
-
-  useEffect(() => {
-    console.log('user', user);
-  }, [user]);
 
   return (
     <>
@@ -104,13 +102,16 @@ const Dashboard = () => {
           <Divider />
         </SideNavContainer>
 
-        <FlexContainer>
+        <ContentContainer>
           <Switch>
             <Route path="/aaa" component={ReduxPage} />
-            <Route path="/bbb" component={ReduxPage} />
-            <Route path="/" component={RoomList} />
+            <Route path="/room/:id" component={Room} />
+            <Route path="/roomlist" component={RoomList} />
+            <Route path="/*">
+              <Redirect to="roomlist" />
+            </Route>
           </Switch>
-        </FlexContainer>
+        </ContentContainer>
 
       </FlexContainer>
     </>
