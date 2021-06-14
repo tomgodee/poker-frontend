@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
-import { ACCESS_TOKEN } from '../../constants/localStorage';
+import { ACCESS_TOKEN } from '../../config/localStorage';
 import { selectUser, login } from '../../reducers/user';
 import {
   LoginContainer as Container,

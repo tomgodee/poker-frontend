@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { ACCESS_TOKEN } from '../../constants/localStorage';
+import { ACCESS_TOKEN } from '../../config/localStorage';
 
 interface PrivateRouteProps {
   component: any;

@@ -16,10 +16,10 @@ import {
   Message as MessageInterface,
 } from '../../pages/Room/types';
 import { selectUser } from '../../reducers/user';
-import { MESSAGE_SENT } from '../../constants/socketio';
+import { selectRoom } from '../../reducers/room';
+import { MESSAGE_SENT } from '../../config/socketio';
 
 interface ChatProps {
-  room: RoomInterface;
   socket: Socket<DefaultEventsMap, DefaultEventsMap>;
 }
 
@@ -32,22 +32,23 @@ const Chat = (props: ChatProps) => {
     roomId: 0,
   });
   const user = useSelector(selectUser);
+  const room = useSelector(selectRoom);
 
   useEffect(() => {
-    props.socket.on(MESSAGE_SENT, (message: MessageInterface) => {
+    props.socket?.on(MESSAGE_SENT, (message: MessageInterface) => {
       setChatMessages((prevChatMessages) => {
         return [...prevChatMessages, message];
       });
     });
-  }, []);
+  }, [props.socket]);
 
-  const handleSendMessageSuccessfully = () => {
-    setMyMessage({
+  const handleSendMessageSuccessfully = (aaa: any) => {
+    setMyMessage(() => ({
       id: '',
       username: user.name,
       content: '',
-      roomId: props.room.id,
-    });
+      roomId: room.id,
+    }));
   };
 
   const sendMessage = (event: React.KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -56,7 +57,7 @@ const Chat = (props: ChatProps) => {
         ...myMessage,
         id: shuffle(`${user.name}:${moment().unix()}`),
         username: user.name,
-        roomId: props.room.id,
+        roomId: room.id,
       };
       props.socket.emit(MESSAGE_SENT, sentMessage, handleSendMessageSuccessfully);
     }

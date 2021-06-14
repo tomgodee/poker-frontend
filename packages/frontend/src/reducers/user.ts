@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import authenticationService from '../services/authentication';
 import { LoginFormInputs } from '../pages/Login/types';
-import { ACCESS_TOKEN } from '../constants/localStorage';
+import { ACCESS_TOKEN } from '../config/localStorage';
 
 interface UserAction {
   name: string;
@@ -26,7 +26,7 @@ export const slice = createSlice({
     money: 0,
     id: 0,
     status: 'idle',
-    error: null,
+    error: '',
   },
   reducers: {
     change: (state, action: PayloadAction<UserAction>) => {
@@ -37,34 +37,34 @@ export const slice = createSlice({
       state.name = action.payload.name;
     },
   },
-  extraReducers: {
-    [login.pending.toString()]: (state) => {
+  extraReducers: (builder) => {
+    builder.addCase(login.pending, (state) => {
       state.status = 'loading';
-    },
-    [login.fulfilled.toString()]: (state, action) => {
+    });
+    builder.addCase(login.fulfilled, (state, action) => {
       state.status = 'succeeded';
       state.name = action.payload.name;
       state.money = action.payload.money;
       state.id = action.payload.id;
       localStorage.setItem(ACCESS_TOKEN, action.payload.accessToken);
-    },
-    [login.rejected.toString()]: (state, action) => {
+    });
+    builder.addCase(login.rejected, (state, action) => {
       state.status = 'failed';
-      state.error = action.error.message;
-    },
-    [verify.pending.toString()]: (state) => {
+      state.error = action.error.message ?? '';
+    });
+    builder.addCase(verify.pending, (state) => {
       state.status = 'loading';
-    },
-    [verify.fulfilled.toString()]: (state, action) => {
+    });
+    builder.addCase(verify.fulfilled, (state, action) => {
       state.status = 'succeeded';
       state.name = action.payload.name;
       state.money = action.payload.money;
       state.id = action.payload.id;
-    },
-    [verify.rejected.toString()]: (state, action) => {
+    });
+    builder.addCase(verify.rejected, (state, action) => {
       state.status = 'failed';
-      state.error = action.error.message;
-    },
+      state.error = action.error.message ?? '';
+    });
   },
 });
 

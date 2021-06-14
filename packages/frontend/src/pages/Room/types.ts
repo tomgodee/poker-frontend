@@ -4,7 +4,7 @@ export interface Room {
   random_seat: boolean;
   seat_selectable: boolean;
   type: string;
-  user_id?: number;
+  user_id: number;
 }
 
 export interface Message {

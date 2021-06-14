@@ -4,7 +4,7 @@ import { useHistory, Switch, Route, Redirect } from 'react-router-dom';
 import {
   Divider,
 } from '@material-ui/core';
-import { ACCESS_TOKEN } from '../../constants/localStorage';
+import { ACCESS_TOKEN } from '../../config/localStorage';
 import ReduxPage from '../ReduxPage';
 import RoomList from '../RoomList';
 import Room from '../Room';

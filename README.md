@@ -46,3 +46,7 @@ To make material-UI work with styled-component and typescript:
 When updating a state that depends on its previous value consider using useReducer hook:
   - https://stackoverflow.com/a/62541474/9725161
   - https://reactjs.org/docs/hooks-reference.html#usereducer
+
+From typescript 3.8 you can now import type to avoid circular import
+  - https://github.com/benmosher/eslint-plugin-import/issues/1453
+  - https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html

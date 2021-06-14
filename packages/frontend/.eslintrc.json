@@ -51,6 +51,7 @@
     "camelcase": "off",
     "no-unused-vars": "off",
     "react/jsx-one-expression-per-line": "off",
+    "react/destructuring-assignment": "off",
     "max-len": "off"
   }
 }
