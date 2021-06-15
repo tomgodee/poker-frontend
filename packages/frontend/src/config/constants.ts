@@ -37,3 +37,11 @@ export const SUITES = {
   CLUBS: 'clubs',
   SPADES: 'spades',
 };
+
+export const PRE_FLOP = 'pre-flop';
+
+export const PLAYER_STATUS = {
+  PLAYING: 'playing',
+  FOLD: 'fold',
+  SIT_OUT: 'sit out',
+};

@@ -63,6 +63,9 @@ import AceOfHearts from './Ace_of_Hearts.png';
 import AceOfDiamonds from './Ace_of_Diamonds.png';
 import AceOfSpades from './Ace_of_Spades.png';
 
+import RedCard from './red_back.png';
+import GrayCard from './gray_back.png';
+
 export default {
   DeuceOfClubs,
   DeuceOfHearts,
@@ -116,4 +119,6 @@ export default {
   AceOfHearts,
   AceOfDiamonds,
   AceOfSpades,
+  RedCard,
+  GrayCard,
 };

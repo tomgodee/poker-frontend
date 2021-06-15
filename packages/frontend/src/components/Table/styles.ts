@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import {
+  Button,
   CardMedia,
   Typography,
+  Slider,
 } from '@material-ui/core';
 import { mintCream, salmon, prussianBlue, green } from '../../themes/colors';
 
@@ -20,6 +22,16 @@ export const TableContainer = styled.div`
   border: 12px solid ${salmon};
   border-radius: 50%;
   background-color: ${prussianBlue};
+`;
+
+export const ActionContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 300px;
+  padding: 12px;
+  margin-top: 60px;
+  border: 2px solid ${green};
 `;
 
 export const TableTitle = styled(Typography)`
@@ -70,3 +82,19 @@ export const PlayerCardsContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
+
+export const PlayerBetMoney = styled.div`
+  color: ${mintCream};
+`;
+
+interface ButtonProps {
+  left?: number;
+}
+
+export const TableButton = styled(Button)<ButtonProps>`
+  width: 22%;
+` as typeof Button;
+
+export const MoneySlider = styled(Slider)`
+  width: 100%;
+` as typeof Slider;

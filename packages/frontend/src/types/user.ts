@@ -1,10 +1,16 @@
 interface Player {
   socketId: string;
   user: {
+    seat: number;
     name: string;
     money: number;
-    seat: number;
+    bet: number;
+    hasActioned: boolean;
+    actions: string[],
+    isActing: boolean;
     cards: any[];
+    role: string | string[];
+    status: string;
   }
 }
 
