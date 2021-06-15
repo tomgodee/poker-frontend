@@ -4,6 +4,7 @@ interface Player {
     name: string;
     money: number;
     seat: number;
+    cards: any[];
   }
 }
 

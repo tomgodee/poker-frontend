@@ -16,7 +16,7 @@ export const VALUES = {
 
 const cardValues = new Map();
 cardValues.set(1, 'Ace');
-cardValues.set(2, 'Two');
+cardValues.set(2, 'Deuce');
 cardValues.set(3, 'Three');
 cardValues.set(4, 'Four');
 cardValues.set(5, 'Five');

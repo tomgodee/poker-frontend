@@ -1,34 +1,17 @@
 import styled from 'styled-components';
 import {
   Button,
-  Input,
-  Typography,
-  Avatar,
 } from '@material-ui/core';
 import { rose, green, mintCream } from '../../themes/colors';
 
-interface PlayerCardContainerProps {
-  left: number;
-  right: number;
-  top: number;
-  bottom: number;
-}
-
 // TODO: Need to refactor this pile of trash
-export const PlayerCardContainer = styled.div<PlayerCardContainerProps>`
-  position: absolute;
-  left: ${(props) => `${props.left}%`};
-  right: ${(props) => `${props.right}%`};
-  top: ${(props) => `${props.top}%`};
-  bottom: ${(props) => `${props.bottom}%`};
-  transform: ${(props) => (props.left || props.left === 0 || props.right || props.right === 0) && `translate(${-(props.left || props.right || 0)}%, ${-(props.top || props.bottom)}%)`};
+export const PlayerCardContainer = styled.div`
   display: flex;
   width: 180px;
   height: 60px;
   border: 4px solid ${green};
   border-radius: 36px;
   background-color: ${mintCream};
-
 `;
 
 export const PlayerAvatar = styled.div`

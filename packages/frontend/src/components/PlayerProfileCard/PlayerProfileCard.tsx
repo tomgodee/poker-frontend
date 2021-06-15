@@ -72,18 +72,13 @@ const getCssPosition = (position: number): any => {
   }
 };
 
-const PlayerCard = (props: PlayerCardProps) => {
+const PlayerProfileCard = (props: PlayerCardProps) => {
   const { position, player } = props;
   const user = useSelector(selectUser);
 
   const cardPosition = getCssPosition(position);
   return (
-    <PlayerCardContainer
-      left={cardPosition.left}
-      top={cardPosition.top}
-      right={cardPosition.right}
-      bottom={cardPosition.bottom}
-    >
+    <PlayerCardContainer>
       <PlayerAvatar>
         <Typography
           component="p"
@@ -108,7 +103,7 @@ const PlayerCard = (props: PlayerCardProps) => {
   );
 };
 
-PlayerCard.defaultProps = {
+PlayerProfileCard.defaultProps = {
   player: {
     socketId: '',
     user: {
@@ -119,4 +114,4 @@ PlayerCard.defaultProps = {
   },
 };
 
-export default React.memo(PlayerCard);
+export default React.memo(PlayerProfileCard);
