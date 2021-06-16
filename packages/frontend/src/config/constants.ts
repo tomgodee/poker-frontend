@@ -38,7 +38,13 @@ export const SUITES = {
   SPADES: 'spades',
 };
 
-export const PRE_FLOP = 'pre-flop';
+export const ROUNDS = {
+  PRE_FLOP: 'pre-flop',
+  FLOP: 'flop',
+  TURN: 'turn',
+  RIVER: 'river',
+  SHOWDOWN: 'showdown',
+};
 
 export const PLAYER_STATUS = {
   PLAYING: 'playing',

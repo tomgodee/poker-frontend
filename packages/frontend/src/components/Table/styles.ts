@@ -4,6 +4,7 @@ import {
   CardMedia,
   Typography,
   Slider,
+  Input,
 } from '@material-ui/core';
 import { mintCream, salmon, prussianBlue, green } from '../../themes/colors';
 
@@ -33,6 +34,16 @@ export const ActionContainer = styled.div`
   margin-top: 60px;
   border: 2px solid ${green};
 `;
+
+export const TablePot = styled(Typography)`
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -30%);
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  color: ${mintCream};
+` as typeof Typography;
 
 export const TableTitle = styled(Typography)`
   position: absolute;
@@ -98,3 +109,7 @@ export const TableButton = styled(Button)<ButtonProps>`
 export const MoneySlider = styled(Slider)`
   width: 100%;
 ` as typeof Slider;
+
+export const MoneyInput = styled(Input)`
+  width: 25%;
+` as typeof Input;

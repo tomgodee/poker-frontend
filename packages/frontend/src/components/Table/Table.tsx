@@ -4,6 +4,7 @@ import { Socket } from 'socket.io-client';
 import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 import {
   TableContainer,
+  TablePot,
   TableTitle,
   PublicCardsContainer,
   PlayerContainer,
@@ -13,6 +14,7 @@ import {
   ActionContainer,
   TableButton,
   MoneySlider,
+  MoneyInput,
 } from './styles';
 import PlayerProfileCard from '../PlayerProfileCard';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
@@ -25,7 +27,7 @@ import {
   BET,
   FOLD,
 } from '../../config/socketio';
-import { SUITES, PLAYER_STATUS } from '../../config/constants';
+import { SUITES, PLAYER_STATUS, ROUNDS } from '../../config/constants';
 import type { Player } from '../../types/user';
 import cardImages from '../../assets/cards';
 import { getCardImageName } from '../../utils/helpers';
@@ -112,25 +114,10 @@ const Table = (props: TableProps) => {
   }]);
 
   const [publicCards, setPublicCards] = useState<CardInterface[]>([]);
-  const [roundBet, setRoundBet] = useState<number>();
+  const [roundBet, setRoundBet] = useState<number>(200);
   const [pot, setPot] = useState<number>();
   const [betMoney, setBetMoney] = useState<number>(0);
-
-  useEffect(() => {
-    props.socket?.on(UPDATE_TABLE, (data) => {
-      console.log('data', data);
-      setPublicCards(data.publicCards);
-      setPlayers(data.players);
-      setRoundBet(data.roundBet);
-      setPot(data.pot);
-    });
-  }, [props.socket]);
-
-  useEffect(() => {
-    props.socket?.on(UPDATE_PLAYERS, (updatedPlayers) => {
-      setPlayers(() => updatedPlayers);
-    });
-  }, [props.socket, players]);
+  const [round, setRound] = useState<string>('');
 
   const currentPlayer = useMemo(() => players.find((player) => player.socketId === props.socket?.id), [players]);
   const positions = useMemo(() => {
@@ -141,42 +128,76 @@ const Table = (props: TableProps) => {
     });
   }, [room.max_number_of_player]);
 
+  useEffect(() => {
+    props.socket?.on(UPDATE_TABLE, (data) => {
+      console.log('data', data);
+      setPublicCards(data.publicCards);
+      setPlayers(data.players);
+      setRoundBet(data.roundBet);
+      setPot(data.pot);
+      setRound(data.round);
+
+      // TODO: The currentPlayer is recalculated in useMemo after this functions runs so its value at this point is old
+      const asyncCurrentPlayer = data.players.find((player: any) => player.socketId === props.socket?.id);
+      if (asyncCurrentPlayer && asyncCurrentPlayer.user.bet <= data.roundBet) {
+        setBetMoney(data.roundBet - asyncCurrentPlayer.user.bet);
+      }
+    });
+  }, [props.socket, currentPlayer]);
+
+  useEffect(() => {
+    props.socket?.on(UPDATE_PLAYERS, (updatedPlayers) => {
+      setPlayers(() => updatedPlayers);
+    });
+  }, [props.socket, players]);
+
   const check = () => {
     props.socket.emit(CHECK, {
       roomId: room.id,
     });
-    console.log('check');
   };
 
   const call = () => {
     props.socket.emit(CALL, {
       roomId: room.id,
       currentPlayer,
+      calledMoney: currentPlayer && roundBet - currentPlayer.user.bet,
     });
+    setBetMoney(0);
   };
 
   const bet = () => {
     props.socket.emit(BET, {
       roomId: room.id,
+      currentPlayer,
       betMoney,
     });
+    setBetMoney(0);
   };
 
   const fold = () => {
-    console.log('fold');
+    props.socket.emit(FOLD, {
+      roomId: room.id,
+    });
   };
 
-  const handleChangeBet = (_: any, value: number | number[]) => {
-    console.log('value', value);
+  const handleChangeBet = (_: any, value: number | number[]):void => {
     setBetMoney(value as number);
+  };
+
+  const handleChangeBetInput = (event: any): void => {
+    let money = Number(event.target.value);
+    if (currentPlayer?.user && money > currentPlayer.user.money) money = currentPlayer.user.money;
+    if (currentPlayer && money < roundBet - currentPlayer.user.bet) money = roundBet - currentPlayer.user.bet;
+    setBetMoney(money);
   };
 
   return (
     <>
       <TableContainer>
-        <p>
+        <TablePot>
           {pot}
-        </p>
+        </TablePot>
         <TableTitle component="p">
           Pokermon
         </TableTitle>
@@ -208,7 +229,7 @@ const Table = (props: TableProps) => {
                 && (
                 <>
                   <PlayerBetMoney>
-                    {currentPlayer.user.bet}
+                    {currentPlayer.user.bet ? currentPlayer.user.bet : ''}
                   </PlayerBetMoney>
                   <PlayerCardsContainer>
                     <Card
@@ -230,20 +251,24 @@ const Table = (props: TableProps) => {
                 && (
                 <>
                   <PlayerBetMoney>
-                    {otherPlayer.user.bet}
+                    {otherPlayer.user.bet ? otherPlayer.user.bet : ''}
                   </PlayerBetMoney>
                   <PlayerCardsContainer>
                     <Card
                       component="img"
                       width={60}
                       height={90}
-                      src={cardImages.GrayCard}
+                      src={round !== ROUNDS.SHOWDOWN
+                        ? cardImages.GrayCard
+                        : (cardImages as {[key: string]: string})[getCardImageName(otherPlayer.user.cards[0].number, otherPlayer.user.cards[0].suite)] as string}
                     />
                     <Card
                       component="img"
                       width={60}
                       height={90}
-                      src={cardImages.GrayCard}
+                      src={round !== ROUNDS.SHOWDOWN
+                        ? cardImages.GrayCard
+                        : (cardImages as {[key: string]: string})[getCardImageName(otherPlayer.user.cards[1].number, otherPlayer.user.cards[1].suite)] as string}
                     />
                   </PlayerCardsContainer>
                 </>
@@ -293,10 +318,16 @@ const Table = (props: TableProps) => {
           </TableButton>
           <MoneySlider
             color="primary"
-            min={0}
+            min={roundBet - currentPlayer.user.bet}
             max={currentPlayer.user.money}
             value={betMoney}
             onChange={handleChangeBet}
+          />
+          <MoneyInput
+            type="number"
+            color="primary"
+            value={betMoney}
+            onChange={handleChangeBetInput}
           />
         </ActionContainer>
         )}
