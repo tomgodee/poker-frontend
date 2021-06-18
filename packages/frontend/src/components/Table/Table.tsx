@@ -6,7 +6,7 @@ import {
   TableContainer,
   TablePot,
   TableTitle,
-  PublicCardsContainer,
+  CommunityCardsContainer,
   PlayerContainer,
   Card,
   PlayerCardsContainer,
@@ -32,7 +32,7 @@ import type { Player } from '../../types/user';
 import cardImages from '../../assets/cards';
 import { getCardImageName } from '../../utils/helpers';
 
-const getCssPosition = (position: number): any => {
+const getPlayerPosition = (position: number): any => {
   switch (position) {
     case 1:
       return {
@@ -41,43 +41,98 @@ const getCssPosition = (position: number): any => {
       };
     case 2:
       return {
-        left: 6.125,
+        left: 8.33,
         top: 100,
       };
     case 3:
       return {
         left: -8.33,
-        top: 58.33,
+        top: 50,
       };
     case 4:
       return {
-        left: 0,
-        top: 16.66,
+        left: -0,
+        top: -8.33,
       };
     case 5:
       return {
         left: 33.33,
-        top: -8.33,
+        top: -41.66,
       };
     case 6:
       return {
         left: 66.66,
-        top: -8.33,
+        top: -41.66,
       };
     case 7:
       return {
         right: 0,
-        top: 16.66,
+        top: -8.33,
       };
     case 8:
       return {
         right: -8.33,
-        top: 58.33,
+        top: 50,
       };
     case 9:
       return {
-        right: 0,
+        right: 8.33,
         top: 100,
+      };
+    default:
+      return {
+        left: 50,
+        top: 110,
+      };
+  }
+};
+
+const getMoneyPosition = (position: number): any => {
+  switch (position) {
+    case 1:
+      return {
+        left: 50,
+        top: 0,
+      };
+    case 2:
+      return {
+        right: -16.66,
+        top: 0,
+      };
+    case 3:
+      return {
+        right: -16.66,
+        top: 50,
+      };
+    case 4:
+      return {
+        right: -33.33,
+        top: 75,
+      };
+    case 5:
+      return {
+        left: 50,
+        bottom: -16.66,
+      };
+    case 6:
+      return {
+        left: 50,
+        bottom: -16.66,
+      };
+    case 7:
+      return {
+        left: -41.66,
+        top: 75,
+      };
+    case 8:
+      return {
+        left: -41.66,
+        top: 50,
+      };
+    case 9:
+      return {
+        left: -16.66,
+        top: 0,
       };
     default:
       return {
@@ -113,7 +168,7 @@ const Table = (props: TableProps) => {
     },
   }]);
 
-  const [publicCards, setPublicCards] = useState<CardInterface[]>([]);
+  const [communityCards, setcommunityCards] = useState<CardInterface[]>([]);
   const [roundBet, setRoundBet] = useState<number>(200);
   const [pot, setPot] = useState<number>();
   const [betMoney, setBetMoney] = useState<number>(0);
@@ -131,7 +186,7 @@ const Table = (props: TableProps) => {
   useEffect(() => {
     props.socket?.on(UPDATE_TABLE, (data) => {
       console.log('data', data);
-      setPublicCards(data.publicCards);
+      setcommunityCards(data.communityCards);
       setPlayers(data.players);
       setRoundBet(data.roundBet);
       setPot(data.pot);
@@ -201,8 +256,8 @@ const Table = (props: TableProps) => {
         <TableTitle component="p">
           Pokermon
         </TableTitle>
-        <PublicCardsContainer>
-          { publicCards.map((card) => {
+        <CommunityCardsContainer>
+          { communityCards.map((card) => {
             return (
               <Card
                 key={`${card.number}${card.suite}`}
@@ -213,9 +268,10 @@ const Table = (props: TableProps) => {
               />
             );
           })}
-        </PublicCardsContainer>
+        </CommunityCardsContainer>
         { positions.map((position) => {
-          const cardPosition = getCssPosition(position);
+          const cardPosition = getPlayerPosition(position);
+          const moneyPosition = getMoneyPosition(position);
           const otherPlayer = players?.find((player) => player.user.seat === position && player.socketId !== props.socket.id);
           return (
             <PlayerContainer
@@ -228,7 +284,12 @@ const Table = (props: TableProps) => {
               { (currentPlayer && currentPlayer.user.cards.length > 0 && currentPlayer.user.seat === position)
                 && (
                 <>
-                  <PlayerBetMoney>
+                  <PlayerBetMoney
+                    top={moneyPosition.top}
+                    bottom={moneyPosition.bottom}
+                    left={moneyPosition.left}
+                    right={moneyPosition.right}
+                  >
                     {currentPlayer.user.bet ? currentPlayer.user.bet : ''}
                   </PlayerBetMoney>
                   <PlayerCardsContainer>
@@ -250,7 +311,12 @@ const Table = (props: TableProps) => {
               { (otherPlayer && currentPlayer && currentPlayer.user.cards.length > 0)
                 && (
                 <>
-                  <PlayerBetMoney>
+                  <PlayerBetMoney
+                    top={moneyPosition.top}
+                    bottom={moneyPosition.bottom}
+                    left={moneyPosition.left}
+                    right={moneyPosition.right}
+                  >
                     {otherPlayer.user.bet ? otherPlayer.user.bet : ''}
                   </PlayerBetMoney>
                   <PlayerCardsContainer>

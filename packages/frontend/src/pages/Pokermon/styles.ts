@@ -12,7 +12,7 @@ export const FlexContainer = styled.div`
   flex-direction: column;
   align-items: center;
   height: calc(100vh - 62px);
-  margin-top: 100px;
+  margin-top: 130px;
 `;
 
 export const RoomContainer = styled.div`

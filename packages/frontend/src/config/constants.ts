@@ -1,5 +1,5 @@
 export const VALUES = {
-  ACE: 1,
+  ACE: 14,
   TWO: 2,
   THREE: 3,
   FOUR: 4,
@@ -15,7 +15,7 @@ export const VALUES = {
 };
 
 const cardValues = new Map();
-cardValues.set(1, 'Ace');
+cardValues.set(14, 'Ace');
 cardValues.set(2, 'Deuce');
 cardValues.set(3, 'Three');
 cardValues.set(4, 'Four');

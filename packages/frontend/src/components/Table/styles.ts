@@ -57,7 +57,7 @@ export const TableTitle = styled(Typography)`
   color: ${mintCream};
 ` as typeof Typography;
 
-export const PublicCardsContainer = styled.div`
+export const CommunityCardsContainer = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -84,9 +84,12 @@ export const PlayerContainer = styled.div<PlayerContainerProps>`
   right: ${(props) => `${props.right}%`};
   top: ${(props) => `${props.top}%`};
   bottom: ${(props) => `${props.bottom}%`};
-  transform: ${(props) => (props.left || props.left === 0 || props.right || props.right === 0) && `translate(${-(props.left || props.right || 0)}%, ${-(props.top || props.bottom)}%)`};
+  transform: ${(props) => (props.left || props.left === 0 || props.right || props.right === 0) && `translate(${-(props.left || props.right || 0)}%, ${-(props.top || props.bottom || 0)}%)`};
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
+  width: 177px;
+  height: 177px;
 `;
 
 export const PlayerCardsContainer = styled.div`
@@ -94,8 +97,21 @@ export const PlayerCardsContainer = styled.div`
   justify-content: center;
 `;
 
-export const PlayerBetMoney = styled.div`
+interface PlayerBetMoneyProps {
+  left: number;
+  right: number;
+  top: number;
+  bottom: number;
+}
+
+export const PlayerBetMoney = styled.div<PlayerBetMoneyProps>`
   color: ${mintCream};
+  position: absolute;
+  left: ${(props) => `${props.left}%`};
+  right: ${(props) => `${props.right}%`};
+  top: ${(props) => `${props.top}%`};
+  bottom: ${(props) => `${props.bottom}%`};
+  transform: ${(props) => (props.left || props.left === 0 || props.right || props.right === 0) && `translate(${-(props.left || props.right || 0)}%, ${-(props.top || props.bottom || 0)}%)`};
 `;
 
 interface ButtonProps {
