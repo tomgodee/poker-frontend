@@ -4,8 +4,12 @@ import {
 } from '@material-ui/core';
 import { rose, green, mintCream } from '../../themes/colors';
 
-// TODO: Need to refactor this pile of trash
-export const PlayerCardContainer = styled.div`
+interface PlayerCardContainerProps {
+  active: boolean;
+}
+
+export const PlayerCardContainer = styled.div<PlayerCardContainerProps>`
+  opacity: ${(props) => (props.active ? 1 : 0.5)};
   display: flex;
   width: 180px;
   height: 60px;

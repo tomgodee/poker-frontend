@@ -6,4 +6,5 @@ export const UPDATE_TABLE = 'update table';
 export const CHECK = 'check';
 export const CALL = 'call';
 export const BET = 'bet';
+export const ALL_IN = 'all-in';
 export const FOLD = 'fold';

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, ChangeEvent } from 'react';
 import { times } from 'lodash';
 import { Socket } from 'socket.io-client';
 import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
@@ -15,9 +15,12 @@ import {
   TableButton,
   MoneySlider,
   MoneyInput,
+  ButtonsContainer,
+  SliderContainer,
+  AmountContainer,
 } from './styles';
 import PlayerProfileCard from '../PlayerProfileCard';
-import { useAppSelector, useAppDispatch } from '../../store/hooks';
+import { useAppSelector } from '../../store/hooks';
 import { selectRoom } from '../../reducers/room';
 import {
   UPDATE_PLAYERS,
@@ -25,9 +28,10 @@ import {
   CHECK,
   CALL,
   BET,
+  ALL_IN,
   FOLD,
 } from '../../config/socketio';
-import { SUITES, PLAYER_STATUS, ROUNDS } from '../../config/constants';
+import { SUITES, ROUNDS } from '../../config/constants';
 import type { Player } from '../../types/user';
 import cardImages from '../../assets/cards';
 import { getCardImageName } from '../../utils/helpers';
@@ -150,6 +154,13 @@ interface CardInterface {
   suite: typeof SUITES.HEARTS | typeof SUITES.DIAMONDS | typeof SUITES.CLUBS | typeof SUITES.SPADES;
 }
 
+interface PotInterface {
+  amount: number;
+  bestHandStrength: number;
+  winners: string[];
+  sidePot: boolean;
+}
+
 const Table = (props: TableProps) => {
   const room = useAppSelector(selectRoom);
   const [players, setPlayers] = useState<Player[]>([{
@@ -170,7 +181,12 @@ const Table = (props: TableProps) => {
 
   const [communityCards, setcommunityCards] = useState<CardInterface[]>([]);
   const [roundBet, setRoundBet] = useState<number>(200);
-  const [pot, setPot] = useState<number>();
+  const [pots, setPots] = useState<PotInterface[]>([{
+    amount: 300,
+    bestHandStrength: 8000,
+    winners: [],
+    sidePot: false,
+  }]);
   const [betMoney, setBetMoney] = useState<number>(0);
   const [round, setRound] = useState<string>('');
 
@@ -188,14 +204,18 @@ const Table = (props: TableProps) => {
       console.log('data', data);
       setcommunityCards(data.communityCards);
       setPlayers(data.players);
+      setPots(data.pots);
       setRoundBet(data.roundBet);
-      setPot(data.pot);
       setRound(data.round);
 
       // TODO: The currentPlayer is recalculated in useMemo after this functions runs so its value at this point is old
       const asyncCurrentPlayer = data.players.find((player: any) => player.socketId === props.socket?.id);
       if (asyncCurrentPlayer && asyncCurrentPlayer.user.bet <= data.roundBet) {
-        setBetMoney(data.roundBet - asyncCurrentPlayer.user.bet);
+        if (data.roundBet > asyncCurrentPlayer.user.money + asyncCurrentPlayer.user.bet) {
+          setBetMoney(asyncCurrentPlayer.user.money);
+        } else {
+          setBetMoney(data.roundBet - asyncCurrentPlayer.user.bet);
+        }
       }
     });
   }, [props.socket, currentPlayer]);
@@ -216,7 +236,9 @@ const Table = (props: TableProps) => {
     props.socket.emit(CALL, {
       roomId: room.id,
       currentPlayer,
-      calledMoney: currentPlayer && roundBet - currentPlayer.user.bet,
+      calledMoney: roundBet > currentPlayer!.user.money + currentPlayer!.user.bet
+        ? currentPlayer!.user.money
+        : roundBet - currentPlayer!.user.bet,
     });
     setBetMoney(0);
   };
@@ -224,7 +246,6 @@ const Table = (props: TableProps) => {
   const bet = () => {
     props.socket.emit(BET, {
       roomId: room.id,
-      currentPlayer,
       betMoney,
     });
     setBetMoney(0);
@@ -240,7 +261,7 @@ const Table = (props: TableProps) => {
     setBetMoney(value as number);
   };
 
-  const handleChangeBetInput = (event: any): void => {
+  const handleChangeBetInput = (event: ChangeEvent<HTMLInputElement>): void => {
     let money = Number(event.target.value);
     if (currentPlayer?.user && money > currentPlayer.user.money) money = currentPlayer.user.money;
     if (currentPlayer && money < roundBet - currentPlayer.user.bet) money = roundBet - currentPlayer.user.bet;
@@ -250,9 +271,13 @@ const Table = (props: TableProps) => {
   return (
     <>
       <TableContainer>
-        <TablePot>
-          {pot}
-        </TablePot>
+        {pots.map((pot) => {
+          return (
+            <TablePot key={pot.bestHandStrength}>
+              {pot.amount}
+            </TablePot>
+          );
+        })}
         <TableTitle component="p">
           Pokermon
         </TableTitle>
@@ -308,7 +333,7 @@ const Table = (props: TableProps) => {
                   </PlayerCardsContainer>
                 </>
                 )}
-              { (otherPlayer && currentPlayer && currentPlayer.user.cards.length > 0)
+              { (otherPlayer && otherPlayer.user.cards.length > 0)
                 && (
                 <>
                   <PlayerBetMoney
@@ -350,51 +375,95 @@ const Table = (props: TableProps) => {
       { currentPlayer?.user
         && (
         <ActionContainer>
-          <TableButton
-            color="primary"
-            variant="contained"
-            onClick={check}
-            disabled={!currentPlayer.user.actions.includes(CHECK) || !currentPlayer.user.isActing}
-          >
-            {CHECK}
-          </TableButton>
-          <TableButton
-            color="primary"
-            variant="contained"
-            onClick={call}
-            disabled={!currentPlayer.user.actions.includes(CALL) || !currentPlayer.user.isActing}
-          >
-            {CALL}
-          </TableButton>
-          <TableButton
-            color="primary"
-            variant="contained"
-            onClick={bet}
-            disabled={!currentPlayer.user.actions.includes(BET) || !currentPlayer.user.isActing}
-          >
-            {BET}
-          </TableButton>
-          <TableButton
-            color="primary"
-            variant="contained"
-            onClick={fold}
-            disabled={!currentPlayer.user.actions.includes(FOLD) || !currentPlayer.user.isActing}
-          >
-            {FOLD}
-          </TableButton>
-          <MoneySlider
-            color="primary"
-            min={roundBet - currentPlayer.user.bet}
-            max={currentPlayer.user.money}
-            value={betMoney}
-            onChange={handleChangeBet}
-          />
-          <MoneyInput
-            type="number"
-            color="primary"
-            value={betMoney}
-            onChange={handleChangeBetInput}
-          />
+          <ButtonsContainer>
+            <TableButton
+              color="primary"
+              variant="contained"
+              onClick={fold}
+              disabled={!currentPlayer.user.actions.includes(FOLD) || !currentPlayer.user.isActing}
+            >
+              {FOLD}
+            </TableButton>
+            <TableButton
+              color="primary"
+              variant="contained"
+              onClick={check}
+              disabled={!currentPlayer.user.actions.includes(CHECK) || !currentPlayer.user.isActing}
+            >
+              {CHECK}
+            </TableButton>
+            <TableButton
+              color="primary"
+              variant="contained"
+              onClick={call}
+              disabled={!currentPlayer.user.actions.includes(CALL) || !currentPlayer.user.isActing}
+            >
+              {CALL}
+            </TableButton>
+            <TableButton
+              color="primary"
+              variant="contained"
+              onClick={bet}
+              disabled={!currentPlayer.user.actions.includes(BET)
+                || !currentPlayer.user.isActing
+                || (betMoney < 200 && roundBet === 0)
+                || (betMoney < roundBet * 2 && roundBet === 200)
+                || (betMoney < roundBet + 200 && roundBet > 200)}
+            >
+              {BET}
+            </TableButton>
+          </ButtonsContainer>
+
+          <SliderContainer>
+            <AmountContainer>
+              <TableButton
+                color="primary"
+                variant="contained"
+                onClick={() => setBetMoney(pots[0].amount! / 2)}
+                disabled={!currentPlayer.user.actions.includes(BET) || !currentPlayer.user.isActing}
+              >
+                1/2 pot
+              </TableButton>
+              <TableButton
+                color="primary"
+                variant="contained"
+                onClick={() => setBetMoney(Math.floor(pots[0].amount! * (2 / 3)))}
+                disabled={!currentPlayer.user.actions.includes(BET) || !currentPlayer.user.isActing}
+              >
+                2/3 pot
+              </TableButton>
+              <TableButton
+                color="primary"
+                variant="contained"
+                onClick={() => setBetMoney(pots[0].amount!)}
+                disabled={!currentPlayer.user.actions.includes(BET) || !currentPlayer.user.isActing}
+              >
+                pot
+              </TableButton>
+              <TableButton
+                color="primary"
+                variant="contained"
+                onClick={() => setBetMoney(currentPlayer.user.money + currentPlayer.user.bet)}
+                disabled={!currentPlayer.user.actions.includes(BET) || !currentPlayer.user.isActing}
+              >
+                {ALL_IN}
+              </TableButton>
+            </AmountContainer>
+
+            <MoneyInput
+              type="number"
+              color="primary"
+              value={betMoney}
+              onChange={handleChangeBetInput}
+            />
+            <MoneySlider
+              color="primary"
+              min={roundBet - currentPlayer.user.bet}
+              max={currentPlayer.user.money}
+              value={betMoney}
+              onChange={handleChangeBet}
+            />
+          </SliderContainer>
         </ActionContainer>
         )}
     </>

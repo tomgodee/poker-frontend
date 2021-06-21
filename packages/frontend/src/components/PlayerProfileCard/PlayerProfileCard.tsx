@@ -3,6 +3,7 @@ import { isArray } from 'lodash';
 import {
   Typography,
 } from '@material-ui/core';
+import { PLAYER_STATUS } from '../../config/constants';
 import {
   PlayerCardContainer,
   PlayerAvatar,
@@ -24,8 +25,23 @@ const PlayerProfileCard = (props: PlayerCardProps) => {
     role = player?.user.role;
   }
 
+  let money = '';
+  if (player?.socketId) {
+    if (player.user.money === 0) {
+      if (player.user.status === PLAYER_STATUS.SIT_OUT) {
+        money = 'Sitting out';
+      } else if (player.user.status === PLAYER_STATUS.ALL_IN) {
+        money = 'All-in';
+      }
+    } else {
+      money = String(player.user.money);
+    }
+  }
+
   return (
-    <PlayerCardContainer>
+    <PlayerCardContainer
+      active={player?.user.status !== PLAYER_STATUS.SIT_OUT}
+    >
       <PlayerAvatar>
         <Typography
           component="p"
@@ -43,7 +59,7 @@ const PlayerProfileCard = (props: PlayerCardProps) => {
         <Typography
           component="p"
         >
-          {player?.user.money}
+          {money}
         </Typography>
       </PlayerInfo>
     </PlayerCardContainer>

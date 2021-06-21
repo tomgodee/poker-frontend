@@ -27,22 +27,27 @@ export const TableContainer = styled.div`
 
 export const ActionContainer = styled.div`
   display: flex;
+  flex-direction: column-reverse;
   justify-content: space-between;
-  flex-wrap: wrap;
-  width: 300px;
+  width: 400px;
   padding: 12px;
   margin-top: 60px;
   border: 2px solid ${green};
+  @media (min-width: 960px) {
+    flex-direction: row;
+    width: 800px;
+  }
 `;
 
 export const TablePot = styled(Typography)`
-  position: absolute;
+  // position: absolute;
   top: 30%;
   left: 50%;
   transform: translate(-50%, -30%);
   text-transform: uppercase;
   font-size: 1.5rem;
-  color: ${mintCream};
+  // color: ${mintCream};
+  color: black;
 ` as typeof Typography;
 
 export const TableTitle = styled(Typography)`
@@ -63,7 +68,6 @@ export const CommunityCardsContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
-  width: 385px;
 `;
 
 interface CardProps {
@@ -75,6 +79,7 @@ export const Card = styled(CardMedia)<CardProps>`
   width: ${(props) => `${props.width || 75}px`};
   height: ${(props) => `${props.height || 115}px`};
   margin-left: 2px;
+  border: 1px solid gray;
 ` as typeof CardMedia;
 
 // TODO: Need to refactor this pile of trash
@@ -123,9 +128,38 @@ export const TableButton = styled(Button)<ButtonProps>`
 ` as typeof Button;
 
 export const MoneySlider = styled(Slider)`
-  width: 100%;
+  width: 74%;
 ` as typeof Slider;
 
 export const MoneyInput = styled(Input)`
-  width: 25%;
+  width: 16.66%;
+  text-align: right;
 ` as typeof Input;
+
+export const ButtonsContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  margin-top: 12px;
+  @media (min-width: 960px) {
+    width: 41.66%;
+    margin: 0;
+  }
+`;
+
+export const SliderContainer = styled.div`
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  @media (min-width: 960px) {
+    width: 50%;
+  }
+`;
+
+export const AmountContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  margin-bottom: 12px;
+`;

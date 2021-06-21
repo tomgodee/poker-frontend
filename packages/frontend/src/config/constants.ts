@@ -48,6 +48,7 @@ export const ROUNDS = {
 
 export const PLAYER_STATUS = {
   PLAYING: 'playing',
+  ALL_IN: 'all-in',
   FOLD: 'fold',
-  SIT_OUT: 'sit out',
+  SIT_OUT: 'sit-out',
 };
