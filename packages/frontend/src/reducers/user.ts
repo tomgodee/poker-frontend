@@ -64,6 +64,8 @@ export const slice = createSlice({
     builder.addCase(verify.rejected, (state, action) => {
       state.status = 'failed';
       state.error = action.error.message ?? '';
+      localStorage.removeItem(ACCESS_TOKEN);
+      window.location.replace('/login');
     });
   },
 });

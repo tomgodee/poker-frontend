@@ -61,7 +61,7 @@ const Dashboard = () => {
             <HeaderMenuIcon />
           </IconButton>
           <HeaderTypography>
-            Poke
+            Pokermon
           </HeaderTypography>
 
           <HeaderProfileContainer>
