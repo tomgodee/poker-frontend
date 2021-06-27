@@ -12,7 +12,7 @@ import {
   RoomSkeleton,
 } from './styles';
 import roomService from '../../services/room';
-import { Room } from '../Room/types';
+import { Room } from '../../types/room';
 
 const RoomList = () => {
   const history = useHistory();

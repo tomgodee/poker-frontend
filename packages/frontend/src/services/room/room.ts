@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import baseService from '../baseApi';
-import { Room } from '../../pages/Room/types';
+import { Room } from '../../types/room';
 
 function getAll(): Promise<Room[]> {
   return baseService.get('/room');

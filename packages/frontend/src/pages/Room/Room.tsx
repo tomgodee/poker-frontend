@@ -38,7 +38,7 @@ const Room = () => {
       socket.current?.emit(JOIN_ROOM, {
         user: {
           name: user.name,
-          money: user.money,
+          currentMoney: user.money,
         },
         roomId: room.id,
         random_seat: room.random_seat,

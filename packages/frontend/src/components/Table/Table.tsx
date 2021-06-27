@@ -4,13 +4,10 @@ import { Socket } from 'socket.io-client';
 import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 import {
   TableContainer,
-  TablePot,
   TableTitle,
+  TablePotContainer,
   CommunityCardsContainer,
-  PlayerContainer,
   Card,
-  PlayerCardsContainer,
-  PlayerBetMoney,
   ActionContainer,
   TableButton,
   MoneySlider,
@@ -19,7 +16,8 @@ import {
   SliderContainer,
   AmountContainer,
 } from './styles';
-import PlayerProfileCard from '../PlayerProfileCard';
+import TablePot from '../TablePot';
+import PlayerCard from '../PlayerCard';
 import { useAppSelector } from '../../store/hooks';
 import { selectRoom } from '../../reducers/room';
 import {
@@ -31,134 +29,14 @@ import {
   ALL_IN,
   FOLD,
 } from '../../config/socketio';
-import { SUITES, ROUNDS } from '../../config/constants';
+import { DEFAULT_BIG_BLIND, DEFAULT_POT } from '../../config/constants';
+import type { Pot, Card as CardInterface } from '../../types/table';
 import type { Player } from '../../types/user';
 import cardImages from '../../assets/cards';
 import { getCardImageName } from '../../utils/helpers';
 
-const getPlayerPosition = (position: number): any => {
-  switch (position) {
-    case 1:
-      return {
-        left: 50,
-        top: 115,
-      };
-    case 2:
-      return {
-        left: 8.33,
-        top: 100,
-      };
-    case 3:
-      return {
-        left: -8.33,
-        top: 50,
-      };
-    case 4:
-      return {
-        left: -0,
-        top: -8.33,
-      };
-    case 5:
-      return {
-        left: 33.33,
-        top: -41.66,
-      };
-    case 6:
-      return {
-        left: 66.66,
-        top: -41.66,
-      };
-    case 7:
-      return {
-        right: 0,
-        top: -8.33,
-      };
-    case 8:
-      return {
-        right: -8.33,
-        top: 50,
-      };
-    case 9:
-      return {
-        right: 8.33,
-        top: 100,
-      };
-    default:
-      return {
-        left: 50,
-        top: 110,
-      };
-  }
-};
-
-const getMoneyPosition = (position: number): any => {
-  switch (position) {
-    case 1:
-      return {
-        left: 50,
-        top: 0,
-      };
-    case 2:
-      return {
-        right: -16.66,
-        top: 0,
-      };
-    case 3:
-      return {
-        right: -16.66,
-        top: 50,
-      };
-    case 4:
-      return {
-        right: -33.33,
-        top: 75,
-      };
-    case 5:
-      return {
-        left: 50,
-        bottom: -16.66,
-      };
-    case 6:
-      return {
-        left: 50,
-        bottom: -16.66,
-      };
-    case 7:
-      return {
-        left: -41.66,
-        top: 75,
-      };
-    case 8:
-      return {
-        left: -41.66,
-        top: 50,
-      };
-    case 9:
-      return {
-        left: -16.66,
-        top: 0,
-      };
-    default:
-      return {
-        left: 50,
-        top: 110,
-      };
-  }
-};
 interface TableProps {
   socket: Socket<DefaultEventsMap, DefaultEventsMap>;
-}
-
-interface CardInterface {
-  number: number;
-  suite: typeof SUITES.HEARTS | typeof SUITES.DIAMONDS | typeof SUITES.CLUBS | typeof SUITES.SPADES;
-}
-
-interface PotInterface {
-  amount: number;
-  bestHandStrength: number;
-  winners: string[];
-  sidePot: boolean;
 }
 
 const Table = (props: TableProps) => {
@@ -168,7 +46,8 @@ const Table = (props: TableProps) => {
     user: {
       seat: 0,
       name: '',
-      money: 0,
+      currentMoney: 0,
+      totalMoney: 0,
       bet: 0,
       hasActioned: false,
       actions: [],
@@ -180,13 +59,8 @@ const Table = (props: TableProps) => {
   }]);
 
   const [communityCards, setcommunityCards] = useState<CardInterface[]>([]);
-  const [roundBet, setRoundBet] = useState<number>(200);
-  const [pots, setPots] = useState<PotInterface[]>([{
-    amount: 300,
-    bestHandStrength: 8000,
-    winners: [],
-    sidePot: false,
-  }]);
+  const [roundBet, setRoundBet] = useState<number>(DEFAULT_BIG_BLIND);
+  const [pots, setPots] = useState<Pot[]>([DEFAULT_POT]);
   const [betMoney, setBetMoney] = useState<number>(0);
   const [round, setRound] = useState<string>('');
 
@@ -202,17 +76,17 @@ const Table = (props: TableProps) => {
   useEffect(() => {
     props.socket?.on(UPDATE_TABLE, (data) => {
       console.log('data', data);
-      setcommunityCards(data.communityCards);
       setPlayers(data.players);
       setPots(data.pots);
+      setcommunityCards(data.communityCards);
       setRoundBet(data.roundBet);
       setRound(data.round);
 
-      // TODO: The currentPlayer is recalculated in useMemo after this functions runs so its value at this point is old
+      // TODO: The currentPlayer is recalculated in useMemo after this functions runs so its value at this point is not the latest value
       const asyncCurrentPlayer = data.players.find((player: any) => player.socketId === props.socket?.id);
       if (asyncCurrentPlayer && asyncCurrentPlayer.user.bet <= data.roundBet) {
-        if (data.roundBet > asyncCurrentPlayer.user.money + asyncCurrentPlayer.user.bet) {
-          setBetMoney(asyncCurrentPlayer.user.money);
+        if (data.roundBet > asyncCurrentPlayer.user.currentMoney + asyncCurrentPlayer.user.bet) {
+          setBetMoney(asyncCurrentPlayer.user.currentMoney);
         } else {
           setBetMoney(data.roundBet - asyncCurrentPlayer.user.bet);
         }
@@ -236,8 +110,8 @@ const Table = (props: TableProps) => {
     props.socket.emit(CALL, {
       roomId: room.id,
       currentPlayer,
-      calledMoney: roundBet > currentPlayer!.user.money + currentPlayer!.user.bet
-        ? currentPlayer!.user.money
+      calledMoney: roundBet > currentPlayer!.user.currentMoney + currentPlayer!.user.bet
+        ? currentPlayer!.user.currentMoney
         : roundBet - currentPlayer!.user.bet,
     });
     setBetMoney(0);
@@ -263,21 +137,16 @@ const Table = (props: TableProps) => {
 
   const handleChangeBetInput = (event: ChangeEvent<HTMLInputElement>): void => {
     let money = Number(event.target.value);
-    if (currentPlayer?.user && money > currentPlayer.user.money) money = currentPlayer.user.money;
+    if (currentPlayer?.user && money > currentPlayer.user.currentMoney) money = currentPlayer.user.currentMoney;
     if (currentPlayer && money < roundBet - currentPlayer.user.bet) money = roundBet - currentPlayer.user.bet;
     setBetMoney(money);
   };
-
   return (
     <>
       <TableContainer>
-        {pots.map((pot) => {
-          return (
-            <TablePot key={pot.bestHandStrength}>
-              {pot.amount}
-            </TablePot>
-          );
-        })}
+        <TablePotContainer>
+          {pots.map((pot) => <TablePot amount={pot.amount} key={pot.id} />)}
+        </TablePotContainer>
         <TableTitle component="p">
           Pokermon
         </TableTitle>
@@ -295,79 +164,15 @@ const Table = (props: TableProps) => {
           })}
         </CommunityCardsContainer>
         { positions.map((position) => {
-          const cardPosition = getPlayerPosition(position);
-          const moneyPosition = getMoneyPosition(position);
-          const otherPlayer = players?.find((player) => player.user.seat === position && player.socketId !== props.socket.id);
           return (
-            <PlayerContainer
+            <PlayerCard
               key={position}
-              left={cardPosition.left}
-              top={cardPosition.top}
-              right={cardPosition.right}
-              bottom={cardPosition.bottom}
-            >
-              { (currentPlayer && currentPlayer.user.cards.length > 0 && currentPlayer.user.seat === position)
-                && (
-                <>
-                  <PlayerBetMoney
-                    top={moneyPosition.top}
-                    bottom={moneyPosition.bottom}
-                    left={moneyPosition.left}
-                    right={moneyPosition.right}
-                  >
-                    {currentPlayer.user.bet ? currentPlayer.user.bet : ''}
-                  </PlayerBetMoney>
-                  <PlayerCardsContainer>
-                    <Card
-                      component="img"
-                      width={60}
-                      height={90}
-                      src={(cardImages as {[key: string]: string})[getCardImageName(currentPlayer.user.cards[0].number, currentPlayer.user.cards[0].suite)] as string}
-                    />
-                    <Card
-                      component="img"
-                      width={60}
-                      height={90}
-                      src={(cardImages as {[key: string]: string})[getCardImageName(currentPlayer.user.cards[1].number, currentPlayer.user.cards[1].suite)] as string}
-                    />
-                  </PlayerCardsContainer>
-                </>
-                )}
-              { (otherPlayer && otherPlayer.user.cards.length > 0)
-                && (
-                <>
-                  <PlayerBetMoney
-                    top={moneyPosition.top}
-                    bottom={moneyPosition.bottom}
-                    left={moneyPosition.left}
-                    right={moneyPosition.right}
-                  >
-                    {otherPlayer.user.bet ? otherPlayer.user.bet : ''}
-                  </PlayerBetMoney>
-                  <PlayerCardsContainer>
-                    <Card
-                      component="img"
-                      width={60}
-                      height={90}
-                      src={round !== ROUNDS.SHOWDOWN
-                        ? cardImages.GrayCard
-                        : (cardImages as {[key: string]: string})[getCardImageName(otherPlayer.user.cards[0].number, otherPlayer.user.cards[0].suite)] as string}
-                    />
-                    <Card
-                      component="img"
-                      width={60}
-                      height={90}
-                      src={round !== ROUNDS.SHOWDOWN
-                        ? cardImages.GrayCard
-                        : (cardImages as {[key: string]: string})[getCardImageName(otherPlayer.user.cards[1].number, otherPlayer.user.cards[1].suite)] as string}
-                    />
-                  </PlayerCardsContainer>
-                </>
-                )}
-              <PlayerProfileCard
-                player={players?.find((player) => player.user.seat === position)}
-              />
-            </PlayerContainer>
+              socket={props.socket}
+              position={position}
+              players={players}
+              currentPlayer={currentPlayer}
+              round={round}
+            />
           );
         })}
       </TableContainer>
@@ -406,9 +211,9 @@ const Table = (props: TableProps) => {
               onClick={bet}
               disabled={!currentPlayer.user.actions.includes(BET)
                 || !currentPlayer.user.isActing
-                || (betMoney < 200 && roundBet === 0)
-                || (betMoney < roundBet * 2 && roundBet === 200)
-                || (betMoney < roundBet + 200 && roundBet > 200)}
+                || (betMoney < DEFAULT_BIG_BLIND && roundBet === 0)
+                || (betMoney < roundBet * 2 && roundBet === DEFAULT_BIG_BLIND)
+                || (betMoney < roundBet + DEFAULT_BIG_BLIND && roundBet > DEFAULT_BIG_BLIND)}
             >
               {BET}
             </TableButton>
@@ -443,7 +248,7 @@ const Table = (props: TableProps) => {
               <TableButton
                 color="primary"
                 variant="contained"
-                onClick={() => setBetMoney(currentPlayer.user.money + currentPlayer.user.bet)}
+                onClick={() => setBetMoney(currentPlayer.user.currentMoney + currentPlayer.user.bet)}
                 disabled={!currentPlayer.user.actions.includes(BET) || !currentPlayer.user.isActing}
               >
                 {ALL_IN}
@@ -459,7 +264,7 @@ const Table = (props: TableProps) => {
             <MoneySlider
               color="primary"
               min={roundBet - currentPlayer.user.bet}
-              max={currentPlayer.user.money}
+              max={currentPlayer.user.currentMoney}
               value={betMoney}
               onChange={handleChangeBet}
             />
@@ -467,7 +272,6 @@ const Table = (props: TableProps) => {
         </ActionContainer>
         )}
     </>
-
   );
 };
 

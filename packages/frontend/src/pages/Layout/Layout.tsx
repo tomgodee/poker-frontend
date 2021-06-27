@@ -26,7 +26,6 @@ import {
 } from './styles';
 // import authenticationService from '../../services/authentication';
 // import { logo } from '../../assets';
-// import { LoginFormInputs } from './types';
 
 const Dashboard = () => {
   const history = useHistory();

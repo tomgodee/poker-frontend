@@ -27,14 +27,14 @@ const PlayerProfileCard = (props: PlayerCardProps) => {
 
   let money = '';
   if (player?.socketId) {
-    if (player.user.money === 0) {
+    if (player.user.currentMoney === 0) {
       if (player.user.status === PLAYER_STATUS.SIT_OUT) {
         money = 'Sitting out';
       } else if (player.user.status === PLAYER_STATUS.ALL_IN) {
         money = 'All-in';
       }
     } else {
-      money = String(player.user.money);
+      money = String(player.user.currentMoney);
     }
   }
 

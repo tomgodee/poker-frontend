@@ -15,7 +15,7 @@ import {
   LoginForm as Form,
 } from './styles';
 import { logo } from '../../assets';
-import { LoginFormInputs } from './types';
+import { LoginForm } from '../../types/user';
 
 const BASIC_INPUT_VALIDATION = { required: true, maxLength: 255 };
 const USERNAME = 'username';
@@ -27,7 +27,7 @@ const Login = () => {
   const user = useSelector(selectUser);
 
   // eslint-disable-next-line no-unused-vars
-  const { handleSubmit, control, formState: { errors } } = useForm<LoginFormInputs>({
+  const { handleSubmit, control, formState: { errors } } = useForm<LoginForm>({
     defaultValues: {
       username: '',
       password: '',
@@ -36,7 +36,7 @@ const Login = () => {
     shouldFocusError: true,
   });
 
-  const submitHandler = (data: LoginFormInputs) => {
+  const submitHandler = (data: LoginForm) => {
     dispatch(login(data));
   };
 

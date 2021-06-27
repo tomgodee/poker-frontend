@@ -14,7 +14,7 @@ import {
 import {
   Room as RoomInterface,
   Message as MessageInterface,
-} from '../../pages/Room/types';
+} from '../../types/room';
 import { selectUser } from '../../reducers/user';
 import { selectRoom } from '../../reducers/room';
 import { MESSAGE_SENT } from '../../config/socketio';

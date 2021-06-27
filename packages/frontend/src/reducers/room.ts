@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import roomService from '../services/room';
 import type { RootState } from '../store/store';
-import { Room } from '../pages/Room/types';
+import { Room } from '../types/room';
 
 export const getRoom = createAsyncThunk('room/get', async (id: number) => {
   const response = await roomService.getOne(id);

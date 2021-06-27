@@ -8,13 +8,6 @@ import {
 } from '@material-ui/core';
 import { mintCream, salmon, prussianBlue, green } from '../../themes/colors';
 
-interface PlayerContainerProps {
-  left: number;
-  right: number;
-  top: number;
-  bottom: number;
-}
-
 export const TableContainer = styled.div`
   position: relative;
   display: flex;
@@ -39,16 +32,14 @@ export const ActionContainer = styled.div`
   }
 `;
 
-export const TablePot = styled(Typography)`
-  // position: absolute;
+export const TablePotContainer = styled.div`
+  display: flex;
+  position: absolute;
+  justify-content: space-around;
   top: 30%;
   left: 50%;
-  transform: translate(-50%, -30%);
-  text-transform: uppercase;
-  font-size: 1.5rem;
-  // color: ${mintCream};
-  color: black;
-` as typeof Typography;
+  transform: translate(-50%,-30%);
+`;
 
 export const TableTitle = styled(Typography)`
   position: absolute;
@@ -64,9 +55,9 @@ export const TableTitle = styled(Typography)`
 
 export const CommunityCardsContainer = styled.div`
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -55%);
   display: flex;
 `;
 
@@ -76,48 +67,11 @@ interface CardProps {
 }
 
 export const Card = styled(CardMedia)<CardProps>`
-  width: ${(props) => `${props.width || 75}px`};
-  height: ${(props) => `${props.height || 115}px`};
-  margin-left: 2px;
+  width: ${(props) => `${props.width || 65}px`};
+  height: ${(props) => `${props.height || 105}px`};
+  margin-left: 1px;
   border: 1px solid gray;
 ` as typeof CardMedia;
-
-// TODO: Need to refactor this pile of trash
-export const PlayerContainer = styled.div<PlayerContainerProps>`
-  position: absolute;
-  left: ${(props) => `${props.left}%`};
-  right: ${(props) => `${props.right}%`};
-  top: ${(props) => `${props.top}%`};
-  bottom: ${(props) => `${props.bottom}%`};
-  transform: ${(props) => (props.left || props.left === 0 || props.right || props.right === 0) && `translate(${-(props.left || props.right || 0)}%, ${-(props.top || props.bottom || 0)}%)`};
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  width: 177px;
-  height: 177px;
-`;
-
-export const PlayerCardsContainer = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
-interface PlayerBetMoneyProps {
-  left: number;
-  right: number;
-  top: number;
-  bottom: number;
-}
-
-export const PlayerBetMoney = styled.div<PlayerBetMoneyProps>`
-  color: ${mintCream};
-  position: absolute;
-  left: ${(props) => `${props.left}%`};
-  right: ${(props) => `${props.right}%`};
-  top: ${(props) => `${props.top}%`};
-  bottom: ${(props) => `${props.bottom}%`};
-  transform: ${(props) => (props.left || props.left === 0 || props.right || props.right === 0) && `translate(${-(props.left || props.right || 0)}%, ${-(props.top || props.bottom || 0)}%)`};
-`;
 
 interface ButtonProps {
   left?: number;

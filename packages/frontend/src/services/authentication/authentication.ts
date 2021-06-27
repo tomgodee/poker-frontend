@@ -1,9 +1,9 @@
 import baseService from '../baseApi';
-import { LoginFormInputs } from '../../pages/Login/types';
+import { LoginForm } from '../../types/user';
 
 const BASE_URL = 'user';
 
-function login(data: LoginFormInputs): any {
+function login(data: LoginForm): any {
   return baseService.post(`/${BASE_URL}/login`, data);
 }
 

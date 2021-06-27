@@ -16,6 +16,7 @@ export const PlayerCardContainer = styled.div<PlayerCardContainerProps>`
   border: 4px solid ${green};
   border-radius: 36px;
   background-color: ${mintCream};
+  z-index: 1;
 `;
 
 export const PlayerAvatar = styled.div`

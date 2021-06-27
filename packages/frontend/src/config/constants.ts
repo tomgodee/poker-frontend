@@ -52,3 +52,34 @@ export const PLAYER_STATUS = {
   FOLD: 'fold',
   SIT_OUT: 'sit-out',
 };
+
+export const DEFAULT_BIG_BLIND = 200;
+
+export const DEFAULT_BEST_HAND_STRENGTH = 7462;
+
+export const DEFAULT_PLAYER = {
+  socketId: '',
+  user: {
+    seat: 0,
+    name: '',
+    currentMoney: 0,
+    totalMoney: 0,
+    bet: 0,
+    hasActioned: false,
+    actions: [],
+    isActing: false,
+    role: '',
+    cards: [],
+    status: '',
+  },
+};
+
+export const DEFAULT_POT = {
+  id: 1,
+  amount: 0,
+  bestHandStrength: DEFAULT_BEST_HAND_STRENGTH,
+  limit: 0,
+  winners: [],
+  sidePot: false,
+  excludedPlayers: [],
+};

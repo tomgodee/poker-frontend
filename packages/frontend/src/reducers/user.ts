@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import authenticationService from '../services/authentication';
-import { LoginFormInputs } from '../pages/Login/types';
+import { LoginForm } from '../types/user';
 import { ACCESS_TOKEN } from '../config/localStorage';
 
 interface UserAction {
@@ -9,7 +9,7 @@ interface UserAction {
   id: number;
 }
 
-export const login = createAsyncThunk('user/login', async (data: LoginFormInputs) => {
+export const login = createAsyncThunk('user/login', async (data: LoginForm) => {
   const response = await authenticationService.login(data);
   return response.data;
 });

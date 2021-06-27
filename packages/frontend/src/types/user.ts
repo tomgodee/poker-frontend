@@ -3,7 +3,8 @@ interface Player {
   user: {
     seat: number;
     name: string;
-    money: number;
+    currentMoney: number;
+    totalMoney: number;
     bet: number;
     hasActioned: boolean;
     actions: string[],
@@ -13,6 +14,12 @@ interface Player {
     status: string;
   }
 }
+interface LoginForm {
+  username: string;
+  password: string;
+}
 
-// eslint-disable-next-line import/prefer-default-export
-export type { Player };
+export type {
+  Player,
+  LoginForm,
+};
