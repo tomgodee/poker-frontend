@@ -75,7 +75,7 @@ const Table = (props: TableProps) => {
 
   useEffect(() => {
     props.socket?.on(UPDATE_TABLE, (data) => {
-      console.log('data', data);
+      // console.log('data', data);
       setPlayers(data.players);
       setPots(data.pots);
       setcommunityCards(data.communityCards);

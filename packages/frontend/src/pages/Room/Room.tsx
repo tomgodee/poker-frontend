@@ -24,7 +24,7 @@ const Room = () => {
   const socket = useRef<Socket<DefaultEventsMap, DefaultEventsMap>>();
 
   useEffect(() => {
-    socket.current = io('http://localhost:3000');
+    socket.current = io(process.env.REACT_APP_WS_BASE_URL!);
     if (params.id) {
       dispatch(getRoom(params.id));
     }

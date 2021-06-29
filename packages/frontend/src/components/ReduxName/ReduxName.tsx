@@ -9,7 +9,6 @@ import {
 const ReduxName = () => {
   const name = useSelector(selectName);
   const dispatch = useDispatch();
-  // console.log('values', values);
 
   return (
     <div>
