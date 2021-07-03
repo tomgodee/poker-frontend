@@ -17,7 +17,7 @@ import {
 import { logo } from '../../assets';
 import { LoginForm } from '../../types/user';
 
-const BASIC_INPUT_VALIDATION = { required: true, maxLength: 255 };
+const BASIC_INPUT_VALIDATION = { required: true, maxLength: 256 };
 const USERNAME = 'username';
 const PASSWORD = 'password';
 
