@@ -131,7 +131,7 @@ const Table = (props: TableProps) => {
     });
   };
 
-  const handleChangeBet = (_: any, value: number | number[]):void => {
+  const handleChangeBet = (_: any, value: number | number[]): void => {
     setBetMoney(value as number);
   };
 
@@ -147,23 +147,20 @@ const Table = (props: TableProps) => {
         <TablePotContainer>
           {pots.map((pot) => <TablePot amount={pot.amount} key={pot.id} />)}
         </TablePotContainer>
-        <TableTitle component="p">
-          Pokermon
-        </TableTitle>
         <CommunityCardsContainer>
-          { communityCards.map((card) => {
+          {communityCards.map((card) => {
             return (
               <Card
                 key={`${card.number}${card.suite}`}
                 component="img"
-                src={(cardImages as {[key: string]: string})[getCardImageName(card.number, card.suite)] as string}
-                // TODO: Not the best practice, should find the correct way to infer type here
-                // https://stackoverflow.com/questions/40358434/typescript-ts7015-element-implicitly-has-an-any-type-because-index-expression
+                src={(cardImages as { [key: string]: string })[getCardImageName(card.number, card.suite)] as string}
+              // TODO: Not the best practice, should find the correct way to infer type here
+              // https://stackoverflow.com/questions/40358434/typescript-ts7015-element-implicitly-has-an-any-type-because-index-expression
               />
             );
           })}
         </CommunityCardsContainer>
-        { positions.map((position) => {
+        {positions.map((position) => {
           return (
             <PlayerCard
               key={position}
@@ -177,99 +174,99 @@ const Table = (props: TableProps) => {
         })}
       </TableContainer>
 
-      { currentPlayer?.user
+      {currentPlayer?.user
         && (
-        <ActionContainer>
-          <ButtonsContainer>
-            <TableButton
-              color="primary"
-              variant="contained"
-              onClick={fold}
-              disabled={!currentPlayer.user.actions.includes(FOLD) || !currentPlayer.user.isActing}
-            >
-              {FOLD}
-            </TableButton>
-            <TableButton
-              color="primary"
-              variant="contained"
-              onClick={check}
-              disabled={!currentPlayer.user.actions.includes(CHECK) || !currentPlayer.user.isActing}
-            >
-              {CHECK}
-            </TableButton>
-            <TableButton
-              color="primary"
-              variant="contained"
-              onClick={call}
-              disabled={!currentPlayer.user.actions.includes(CALL) || !currentPlayer.user.isActing}
-            >
-              {CALL}
-            </TableButton>
-            <TableButton
-              color="primary"
-              variant="contained"
-              onClick={bet}
-              disabled={!currentPlayer.user.actions.includes(BET)
-                || !currentPlayer.user.isActing
-                || (betMoney < DEFAULT_BIG_BLIND && roundBet === 0)
-                || (betMoney < roundBet * 2 && roundBet === DEFAULT_BIG_BLIND)
-                || (betMoney < roundBet + DEFAULT_BIG_BLIND && roundBet > DEFAULT_BIG_BLIND)}
-            >
-              {BET}
-            </TableButton>
-          </ButtonsContainer>
+          <ActionContainer>
+            <ButtonsContainer>
+              <TableButton
+                color="primary"
+                variant="contained"
+                onClick={fold}
+                disabled={!currentPlayer.user.actions.includes(FOLD) || !currentPlayer.user.isActing}
+              >
+                {FOLD}
+              </TableButton>
+              <TableButton
+                color="primary"
+                variant="contained"
+                onClick={check}
+                disabled={!currentPlayer.user.actions.includes(CHECK) || !currentPlayer.user.isActing}
+              >
+                {CHECK}
+              </TableButton>
+              <TableButton
+                color="primary"
+                variant="contained"
+                onClick={call}
+                disabled={!currentPlayer.user.actions.includes(CALL) || !currentPlayer.user.isActing}
+              >
+                {CALL}
+              </TableButton>
+              <TableButton
+                color="primary"
+                variant="contained"
+                onClick={bet}
+                disabled={!currentPlayer.user.actions.includes(BET)
+                  || !currentPlayer.user.isActing
+                  || (betMoney < DEFAULT_BIG_BLIND && roundBet === 0)
+                  || (betMoney < roundBet * 2 && roundBet === DEFAULT_BIG_BLIND)
+                  || (betMoney < roundBet + DEFAULT_BIG_BLIND && roundBet > DEFAULT_BIG_BLIND)}
+              >
+                {BET}
+              </TableButton>
+            </ButtonsContainer>
 
-          <SliderContainer>
-            <AmountContainer>
-              <TableButton
-                color="primary"
-                variant="contained"
-                onClick={() => setBetMoney(pots[0].amount! / 2)}
-                disabled={!currentPlayer.user.actions.includes(BET) || !currentPlayer.user.isActing}
-              >
-                1/2 pot
-              </TableButton>
-              <TableButton
-                color="primary"
-                variant="contained"
-                onClick={() => setBetMoney(Math.floor(pots[0].amount! * (2 / 3)))}
-                disabled={!currentPlayer.user.actions.includes(BET) || !currentPlayer.user.isActing}
-              >
-                2/3 pot
-              </TableButton>
-              <TableButton
-                color="primary"
-                variant="contained"
-                onClick={() => setBetMoney(pots[0].amount!)}
-                disabled={!currentPlayer.user.actions.includes(BET) || !currentPlayer.user.isActing}
-              >
-                pot
-              </TableButton>
-              <TableButton
-                color="primary"
-                variant="contained"
-                onClick={() => setBetMoney(currentPlayer.user.currentMoney + currentPlayer.user.bet)}
-                disabled={!currentPlayer.user.actions.includes(BET) || !currentPlayer.user.isActing}
-              >
-                {ALL_IN}
-              </TableButton>
-            </AmountContainer>
+            <SliderContainer>
+              <AmountContainer>
+                <TableButton
+                  color="primary"
+                  variant="contained"
+                  onClick={() => setBetMoney(pots[0].amount! / 2)}
+                  disabled={!currentPlayer.user.actions.includes(BET) || !currentPlayer.user.isActing}
+                >
+                  1/2 pot
+                </TableButton>
+                <TableButton
+                  color="primary"
+                  variant="contained"
+                  onClick={() => setBetMoney(Math.floor(pots[0].amount! * (2 / 3)))}
+                  disabled={!currentPlayer.user.actions.includes(BET) || !currentPlayer.user.isActing}
+                >
+                  2/3 pot
+                </TableButton>
+                <TableButton
+                  color="primary"
+                  variant="contained"
+                  onClick={() => setBetMoney(pots[0].amount!)}
+                  disabled={!currentPlayer.user.actions.includes(BET) || !currentPlayer.user.isActing}
+                >
+                  pot
+                </TableButton>
+                <TableButton
+                  color="primary"
+                  variant="contained"
+                  onClick={() => setBetMoney(currentPlayer.user.currentMoney + currentPlayer.user.bet)}
+                  disabled={!currentPlayer.user.actions.includes(BET) || !currentPlayer.user.isActing}
+                >
+                  {ALL_IN}
+                </TableButton>
+              </AmountContainer>
 
-            <MoneyInput
-              type="number"
-              color="primary"
-              value={betMoney}
-              onChange={handleChangeBetInput}
-            />
-            <MoneySlider
-              color="primary"
-              min={roundBet - currentPlayer.user.bet}
-              max={currentPlayer.user.currentMoney}
-              value={betMoney}
-              onChange={handleChangeBet}
-            />
-          </SliderContainer>
-        </ActionContainer>
+              <MoneyInput
+                type="number"
+                color="primary"
+                value={betMoney}
+                onChange={handleChangeBetInput}
+              />
+              <MoneySlider
+                color="primary"
+                min={roundBet - currentPlayer.user.bet}
+                max={currentPlayer.user.currentMoney}
+                value={betMoney}
+                onChange={handleChangeBet}
+              />
+            </SliderContainer>
+          </ActionContainer>
         )}
     </>
   );

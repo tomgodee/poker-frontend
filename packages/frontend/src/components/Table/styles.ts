@@ -6,16 +6,17 @@ import {
   Slider,
   Input,
 } from '@material-ui/core';
-import { mintCream, salmon, prussianBlue, green } from '../../themes/colors';
+import { mintCream, gray, white, green } from '../../themes/colors';
+import backgroundTable from '../../assets/tomPoker.png';
 
 export const TableContainer = styled.div`
   position: relative;
   display: flex;
   width: 75%;
-  height: 500px;
-  border: 12px solid ${salmon};
-  border-radius: 50%;
-  background-color: ${prussianBlue};
+  height: 550px;
+  background-image: url(${backgroundTable});
+  background-size: cover;
+  background-position: center;
 `;
 
 export const ActionContainer = styled.div`
@@ -25,7 +26,12 @@ export const ActionContainer = styled.div`
   width: 400px;
   padding: 12px;
   margin-top: 60px;
-  border: 2px solid ${green};
+  background: #000000;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  border: 4px solid ${gray};
+  opacity: 0.9;
+  border-radius: 4px;
   @media (min-width: 960px) {
     flex-direction: row;
     width: 800px;
@@ -66,7 +72,7 @@ interface CardProps {
   height: number;
 }
 
-export const Card = styled(CardMedia)<CardProps>`
+export const Card = styled(CardMedia) <CardProps>`
   width: ${(props) => `${props.width || 65}px`};
   height: ${(props) => `${props.height || 105}px`};
   margin-left: 1px;
@@ -77,7 +83,15 @@ interface ButtonProps {
   left?: number;
 }
 
-export const TableButton = styled(Button)<ButtonProps>`
+export const TableButton = styled(Button) <ButtonProps>`
+  &.Mui-disabled {
+    color: ${gray};
+    background: #0F2027;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+  }
+  color: ${white};
   width: 22%;
 ` as typeof Button;
 
@@ -88,6 +102,18 @@ export const MoneySlider = styled(Slider)`
 export const MoneyInput = styled(Input)`
   width: 16.66%;
   text-align: right;
+  color: ${white};
+  &:hover:not(.Mui-disabled):before {
+    border-bottom:2px solid ${green};
+  }
+  
+  &.MuiInput-underline:before {
+    border-bottom:2px solid ${green};
+  }
+  
+  &.MuiInput-underline:after {
+    border-bottom:2px solid ${green};
+  }
 ` as typeof Input;
 
 export const ButtonsContainer = styled.div`
@@ -95,9 +121,12 @@ export const ButtonsContainer = styled.div`
   width: 100%;
   justify-content: space-around;
   margin-top: 12px;
+  
+  
   @media (min-width: 960px) {
-    width: 41.66%;
+    width: 50%;
     margin: 0;
+    padding: 15px 0;
   }
 `;
 
