@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { green } from '../../themes/colors';
+import { green, white } from '../../themes/colors';
 
 // interface LoginItemGridProps {
 //   $flex?: boolean;
@@ -22,7 +22,9 @@ export const HeaderAccountCircle = styled(AccountCircle)`
 `;
 
 export const Header = styled(AppBar)`
+  background: #203A43;
   position: static;
+  box-shadow: 0 2px 21px rgb(0 0 0 / 60%);
 `;
 
 export const DashboardButton = styled(Button)`
@@ -65,9 +67,11 @@ export const HeaderMenuItem = styled(MenuItem)`
 `;
 
 export const HeaderMenuIcon = styled(MenuIcon)`
+  color: ${white};
 `;
 
 export const HeaderIconButton = styled(IconButton)`
+  color: ${white};
 `;
 
 export const HeaderToolbar = styled(Toolbar)`

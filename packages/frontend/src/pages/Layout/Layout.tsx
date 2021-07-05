@@ -92,14 +92,14 @@ const Dashboard = () => {
       </Header>
 
       <FlexContainer>
-        <SideNavContainer>
+        {/* <SideNavContainer>
           {['Item 1', 'Item 2', 'Item 3', 'Item 4'].map((text) => (
             <SideNavItem key={text} disableRipple>
               {text}
             </SideNavItem>
           ))}
           <Divider />
-        </SideNavContainer>
+        </SideNavContainer> */}
 
         <ContentContainer>
           <Switch>

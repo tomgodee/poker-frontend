@@ -18,7 +18,7 @@ const getPlayerPosition = (position: number): any => {
     case 1:
       return {
         left: 50,
-        top: 115,
+        top: 107,
       };
     case 2:
       return {
@@ -38,12 +38,12 @@ const getPlayerPosition = (position: number): any => {
     case 5:
       return {
         left: 33.33,
-        top: -41.66,
+        top: -39.66,
       };
     case 6:
       return {
         left: 66.66,
-        top: -41.66,
+        top: -39.66,
       };
     case 7:
       return {
@@ -142,63 +142,63 @@ const PlayerCard = (props: PlayerCardProps) => {
       right={cardPosition.right}
       bottom={cardPosition.bottom}
     >
-      { (props.currentPlayer && props.currentPlayer.user.cards.length > 0 && props.currentPlayer.user.seat === props.position)
+      {(props.currentPlayer && props.currentPlayer.user.cards.length > 0 && props.currentPlayer.user.seat === props.position)
         && (
-        <>
-          <PlayerBetMoney
-            top={moneyPosition.top}
-            bottom={moneyPosition.bottom}
-            left={moneyPosition.left}
-            right={moneyPosition.right}
-          >
-            {props.currentPlayer.user.bet ? props.currentPlayer.user.bet : ''}
-          </PlayerBetMoney>
-          <PlayerCardsContainer>
-            <Card
-              component="img"
-              width={60}
-              height={90}
-              src={(cardImages as {[key: string]: string})[getCardImageName(props.currentPlayer.user.cards[0].number, props.currentPlayer.user.cards[0].suite)] as string}
-            />
-            <Card
-              component="img"
-              width={60}
-              height={90}
-              src={(cardImages as {[key: string]: string})[getCardImageName(props.currentPlayer.user.cards[1].number, props.currentPlayer.user.cards[1].suite)] as string}
-            />
-          </PlayerCardsContainer>
-        </>
+          <>
+            <PlayerBetMoney
+              top={moneyPosition.top}
+              bottom={moneyPosition.bottom}
+              left={moneyPosition.left}
+              right={moneyPosition.right}
+            >
+              {props.currentPlayer.user.bet ? props.currentPlayer.user.bet : ''}
+            </PlayerBetMoney>
+            <PlayerCardsContainer>
+              <Card
+                component="img"
+                width={60}
+                height={90}
+                src={(cardImages as { [key: string]: string })[getCardImageName(props.currentPlayer.user.cards[0].number, props.currentPlayer.user.cards[0].suite)] as string}
+              />
+              <Card
+                component="img"
+                width={60}
+                height={90}
+                src={(cardImages as { [key: string]: string })[getCardImageName(props.currentPlayer.user.cards[1].number, props.currentPlayer.user.cards[1].suite)] as string}
+              />
+            </PlayerCardsContainer>
+          </>
         )}
-      { (otherPlayer && otherPlayer.user.cards.length > 0)
+      {(otherPlayer && otherPlayer.user.cards.length > 0)
         && (
-        <>
-          <PlayerBetMoney
-            top={moneyPosition.top}
-            bottom={moneyPosition.bottom}
-            left={moneyPosition.left}
-            right={moneyPosition.right}
-          >
-            {otherPlayer.user.bet ? otherPlayer.user.bet : ''}
-          </PlayerBetMoney>
-          <PlayerCardsContainer>
-            <Card
-              component="img"
-              width={60}
-              height={90}
-              src={props.round !== ROUNDS.SHOWDOWN
-                ? cardImages.GrayCard
-                : (cardImages as {[key: string]: string})[getCardImageName(otherPlayer.user.cards[0].number, otherPlayer.user.cards[0].suite)] as string}
-            />
-            <Card
-              component="img"
-              width={60}
-              height={90}
-              src={props.round !== ROUNDS.SHOWDOWN
-                ? cardImages.GrayCard
-                : (cardImages as {[key: string]: string})[getCardImageName(otherPlayer.user.cards[1].number, otherPlayer.user.cards[1].suite)] as string}
-            />
-          </PlayerCardsContainer>
-        </>
+          <>
+            <PlayerBetMoney
+              top={moneyPosition.top}
+              bottom={moneyPosition.bottom}
+              left={moneyPosition.left}
+              right={moneyPosition.right}
+            >
+              {otherPlayer.user.bet ? otherPlayer.user.bet : ''}
+            </PlayerBetMoney>
+            <PlayerCardsContainer>
+              <Card
+                component="img"
+                width={60}
+                height={90}
+                src={props.round !== ROUNDS.SHOWDOWN
+                  ? cardImages.GrayCard
+                  : (cardImages as { [key: string]: string })[getCardImageName(otherPlayer.user.cards[0].number, otherPlayer.user.cards[0].suite)] as string}
+              />
+              <Card
+                component="img"
+                width={60}
+                height={90}
+                src={props.round !== ROUNDS.SHOWDOWN
+                  ? cardImages.GrayCard
+                  : (cardImages as { [key: string]: string })[getCardImageName(otherPlayer.user.cards[1].number, otherPlayer.user.cards[1].suite)] as string}
+              />
+            </PlayerCardsContainer>
+          </>
         )}
       <PlayerProfileCard
         player={props.players?.find((player) => player.user.seat === props.position)}

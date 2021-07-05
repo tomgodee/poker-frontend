@@ -1,5 +1,9 @@
 export const rose = '#E63946';
 export const green = '#2A9D8F';
+export const gray = '#ccc';
+export const red = '#8B0016';
+export const white = '#ffffff';
+export const black = '#111';
 export const blusSapphire = '#264653';
 export const salmon = '#D7816A';
 export const prussianBlue = '#18314F';
@@ -20,4 +24,5 @@ export default {
   amethyst,
   yellow,
   orange,
+  red,
 };

@@ -11,8 +11,6 @@ export const FlexContainer = styled.div`
   flex: 1 0 auto;
   flex-direction: column;
   align-items: center;
-  height: calc(100vh - 62px);
-  margin-top: 130px;
 `;
 
 export const RoomContainer = styled.div`

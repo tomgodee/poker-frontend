@@ -58,6 +58,7 @@ const PlayerProfileCard = (props: PlayerCardProps) => {
         <SplitLine />
         <Typography
           component="p"
+          className="money"
         >
           {money}
         </Typography>
