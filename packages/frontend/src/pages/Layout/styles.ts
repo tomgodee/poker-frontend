@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { green, white } from '../../themes/colors';
+import { green, tarawera, white } from '../../themes/colors';
 
 // interface LoginItemGridProps {
 //   $flex?: boolean;
@@ -22,7 +22,7 @@ export const HeaderAccountCircle = styled(AccountCircle)`
 `;
 
 export const Header = styled(AppBar)`
-  background: #203A43;
+  background: ${tarawera};
   position: static;
   box-shadow: 0 2px 21px rgb(0 0 0 / 60%);
 `;

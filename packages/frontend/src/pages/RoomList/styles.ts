@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Card from '@material-ui/core/Card';
 import Skeleton from '@material-ui/lab/Skeleton';
-import { gray, green, white } from '../../themes/colors';
+import { blackPearl, gray, green, tarawera, white } from '../../themes/colors';
 
 export const Container = styled.div`
   display: flex;
@@ -27,15 +27,15 @@ export const RoomContainer = styled(Card)`
   .MuiCardMedia-media {
     width: unset;
   }
+
   .MuiCardContent-root {
-    border-top:  1px solid #0F2027;
-    background: #0F2027;
-    background: -webkit-linear-gradient(to right,#2C5364,#203A43,#0F2027);
-    background: linear-gradient(to right,#2C5364,#203A43,#0F2027);
+    border-top: 1px solid ${blackPearl};
+    background: ${blackPearl};
+    background: linear-gradient(to right,#2C5364,${tarawera},${blackPearl});
   }
 
   .MuiTypography-root {
-    color :${white};
+    color: ${white};
   }
 `;
 

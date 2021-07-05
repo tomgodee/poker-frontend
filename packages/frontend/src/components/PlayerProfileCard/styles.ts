@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import {
-  Button,
+  Button, Typography,
 } from '@material-ui/core';
-import { white, gray, black, mintCream, red } from '../../themes/colors';
+import { white, gray, black, mintCream, charcoal, balihai, bunting } from '../../themes/colors';
 
 interface PlayerCardContainerProps {
   active: boolean;
@@ -15,9 +15,8 @@ export const PlayerCardContainer = styled.div<PlayerCardContainerProps>`
   height: 70px;
   border: 4px solid ${gray};
   border-radius: 10px;
-  background: #000000;
-  background: -webkit-linear-gradient(to right,#434343,#000000);
-  background: linear-gradient(to right,#434343,#000000);
+  background: ${black};
+  background: linear-gradient(to right,${charcoal},${black});
   opacity: 0.8;
   z-index: 1;
 `;
@@ -40,15 +39,16 @@ export const PlayerInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  .money {
-    color: springgreen;
-  }
 `;
 
+export const Money = styled(Typography)`
+  color: springgreen;
+` as typeof Typography;
+
 export const SplitLine = styled.hr`
-  background: #283048;
-  background: -webkit-linear-gradient(to right, #859398, #283048);
-  background: linear-gradient(to right, #859398, #283048);
+  background: ${bunting};
+  background: -webkit-linear-gradient(to right,${balihai}, ${bunting});
+  background: linear-gradient(to right, ${balihai}, ${bunting});
   width: 70%;
   margin: 3px auto;
 `;
