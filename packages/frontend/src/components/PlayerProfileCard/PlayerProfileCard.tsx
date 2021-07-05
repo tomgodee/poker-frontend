@@ -9,6 +9,7 @@ import {
   PlayerAvatar,
   PlayerInfo,
   SplitLine,
+  Money,
 } from './styles';
 import type { Player } from '../../types/user';
 
@@ -56,12 +57,11 @@ const PlayerProfileCard = (props: PlayerCardProps) => {
           {player?.user.name || ''}
         </Typography>
         <SplitLine />
-        <Typography
+        <Money
           component="p"
-          className="money"
         >
           {money}
-        </Typography>
+        </Money>
       </PlayerInfo>
     </PlayerCardContainer>
   );

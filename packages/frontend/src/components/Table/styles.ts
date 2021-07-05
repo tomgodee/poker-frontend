@@ -6,7 +6,7 @@ import {
   Slider,
   Input,
 } from '@material-ui/core';
-import { mintCream, gray, white, green } from '../../themes/colors';
+import { mintCream, gray, white, green, black, blackPearl, tarawera, charcoal, arapawa } from '../../themes/colors';
 import backgroundTable from '../../assets/tomPoker.png';
 
 export const TableContainer = styled.div`
@@ -26,9 +26,8 @@ export const ActionContainer = styled.div`
   width: 400px;
   padding: 12px;
   margin-top: 60px;
-  background: #000000;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: ${black};
+  background: linear-gradient(to right, ${charcoal}, ${black});
   border: 4px solid ${gray};
   opacity: 0.9;
   border-radius: 4px;
@@ -86,10 +85,8 @@ interface ButtonProps {
 export const TableButton = styled(Button) <ButtonProps>`
   &.Mui-disabled {
     color: ${gray};
-    background: #0F2027;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    
+    background:  ${blackPearl};
+    background: linear-gradient(to right,${arapawa}, ${tarawera}, ${blackPearl});
   }
   color: ${white};
   width: 22%;
@@ -104,15 +101,15 @@ export const MoneyInput = styled(Input)`
   text-align: right;
   color: ${white};
   &:hover:not(.Mui-disabled):before {
-    border-bottom:2px solid ${green};
+    border-bottom: 2px solid ${green};
   }
   
   &.MuiInput-underline:before {
-    border-bottom:2px solid ${green};
+    border-bottom: 2px solid ${green};
   }
   
   &.MuiInput-underline:after {
-    border-bottom:2px solid ${green};
+    border-bottom: 2px solid ${green};
   }
 ` as typeof Input;
 
@@ -121,8 +118,6 @@ export const ButtonsContainer = styled.div`
   width: 100%;
   justify-content: space-around;
   margin-top: 12px;
-  
-  
   @media (min-width: 960px) {
     width: 50%;
     margin: 0;

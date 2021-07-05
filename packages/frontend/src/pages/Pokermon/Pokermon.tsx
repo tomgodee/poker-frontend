@@ -31,13 +31,13 @@ const Pokermon = (props: PokermonProps) => {
         <Table
           socket={props.socket}
         />
-        {/* <TableButton
+        <TableButton
           color="primary"
           variant="contained"
           onClick={startGame}
         >
           Start
-        </TableButton> */}
+        </TableButton>
       </FlexContainer>
     </>
   );

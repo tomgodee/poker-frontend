@@ -59,5 +59,5 @@ export const ChipInnerRing = styled.div`
 
 export const ChipNumber = styled(Typography)`
   color: black;
-  font-size: 9px;
+  font-size: 0.56rem;
 ` as typeof Typography;
