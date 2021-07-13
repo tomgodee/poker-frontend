@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { Socket } from 'socket.io-client';
@@ -34,6 +34,8 @@ const Chat = (props: ChatProps) => {
   const user = useSelector(selectUser);
   const room = useSelector(selectRoom);
 
+  const chatContainerRef = useRef<null | HTMLDivElement>(null);
+
   useEffect(() => {
     props.socket?.on(MESSAGE_SENT, (message: MessageInterface) => {
       setChatMessages((prevChatMessages) => {
@@ -42,7 +44,14 @@ const Chat = (props: ChatProps) => {
     });
   }, [props.socket]);
 
-  const handleSendMessageSuccessfully = (aaa: any) => {
+  useEffect(() => {
+    chatContainerRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+    });
+  }, [chatMessages]);
+
+  const handleSendMessageSuccessfully = () => {
     setMyMessage(() => ({
       id: '',
       username: user.name,
@@ -81,6 +90,7 @@ const Chat = (props: ChatProps) => {
             </Message>
           );
         })}
+        <div ref={chatContainerRef} />
       </MessageContainer>
       <ChatInput
         value={myMessage.content}
