@@ -1,7 +1,14 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import authenticationService from '../services/authentication';
+import authenticationService, { AUTHENTICATION_URL } from '../services/authentication';
 import { LoginForm } from '../types/user';
 import { ACCESS_TOKEN } from '../config/localStorage';
+import { LOGIN_PATH } from '../config/paths';
+import {
+  LOADING,
+  IDLE,
+  SUCCEEDED,
+  FAILED,
+} from '../config/status';
 
 interface UserAction {
   name: string;
@@ -9,12 +16,12 @@ interface UserAction {
   id: number;
 }
 
-export const login = createAsyncThunk('user/login', async (data: LoginForm) => {
+export const login = createAsyncThunk(`${AUTHENTICATION_URL}/login`, async (data: LoginForm) => {
   const response = await authenticationService.login(data);
   return response.data;
 });
 
-export const verify = createAsyncThunk('user', async (token: string) => {
+export const verify = createAsyncThunk(`${AUTHENTICATION_URL}`, async (token: string) => {
   const response = await authenticationService.verify(token);
   return response.data;
 });
@@ -25,7 +32,7 @@ export const slice = createSlice({
     name: '',
     money: 0,
     id: 0,
-    status: 'idle',
+    status: IDLE,
     error: '',
   },
   reducers: {
@@ -39,33 +46,33 @@ export const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(login.pending, (state) => {
-      state.status = 'loading';
+      state.status = LOADING;
     });
     builder.addCase(login.fulfilled, (state, action) => {
-      state.status = 'succeeded';
+      state.status = SUCCEEDED;
       state.name = action.payload.name;
       state.money = action.payload.money;
       state.id = action.payload.id;
       localStorage.setItem(ACCESS_TOKEN, action.payload.accessToken);
     });
     builder.addCase(login.rejected, (state, action) => {
-      state.status = 'failed';
+      state.status = FAILED;
       state.error = action.error.message ?? '';
     });
     builder.addCase(verify.pending, (state) => {
-      state.status = 'loading';
+      state.status = LOADING;
     });
     builder.addCase(verify.fulfilled, (state, action) => {
-      state.status = 'succeeded';
+      state.status = SUCCEEDED;
       state.name = action.payload.name;
       state.money = action.payload.money;
       state.id = action.payload.id;
     });
     builder.addCase(verify.rejected, (state, action) => {
-      state.status = 'failed';
+      state.status = FAILED;
       state.error = action.error.message ?? '';
       localStorage.removeItem(ACCESS_TOKEN);
-      window.location.replace('/login');
+      window.location.replace(LOGIN_PATH);
     });
   },
 });

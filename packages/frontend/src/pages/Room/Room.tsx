@@ -6,11 +6,14 @@ import {
   BuyInDialog,
   FlexContainer,
   RoomContainer,
+  LoadingOverlay,
+  LoadingIcon,
 } from './styles';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { selectUser } from '../../reducers/user';
 import { getRoom, selectRoom } from '../../reducers/room';
 import { JOIN_ROOM } from '../../config/socketio';
+import { LOADING } from '../../config/status';
 import Chat from '../../components/Chat';
 import Pokermon from '../Pokermon/Pokermon';
 
@@ -46,18 +49,19 @@ const Room = () => {
   }, [user.name, room.id]);
 
   return (
-    <>
-      <FlexContainer>
-        <RoomContainer>
-          <Pokermon
-            socket={socket.current!}
-          />
-        </RoomContainer>
-        <Chat
+    <FlexContainer>
+      <LoadingOverlay open={user.status === LOADING || room.status === LOADING}>
+        <LoadingIcon />
+      </LoadingOverlay>
+      <RoomContainer>
+        <Pokermon
           socket={socket.current!}
         />
-      </FlexContainer>
-    </>
+      </RoomContainer>
+      <Chat
+        socket={socket.current!}
+      />
+    </FlexContainer>
   );
 };
 

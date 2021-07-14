@@ -1,9 +1,15 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import roomService from '../services/room';
+import roomService, { ROOM_URL } from '../services/room';
 import type { RootState } from '../store/store';
 import { Room } from '../types/room';
+import {
+  LOADING,
+  IDLE,
+  SUCCEEDED,
+  FAILED,
+} from '../config/status';
 
-export const getRoom = createAsyncThunk('room/get', async (id: number) => {
+export const getRoom = createAsyncThunk(`${ROOM_URL}/get`, async (id: number) => {
   const response = await roomService.getOne(id);
   return response.data;
 });
@@ -24,16 +30,16 @@ export const slice = createSlice({
     seat_selectable: false,
     type: 'texas',
     user_id: 0,
-    status: 'idle',
+    status: IDLE,
     error: '',
   },
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getRoom.pending, (state) => {
-      state.status = 'loading';
+      state.status = LOADING;
     });
     builder.addCase(getRoom.fulfilled, (state, action) => {
-      state.status = 'succeeded';
+      state.status = SUCCEEDED;
       state.id = action.payload.id;
       state.max_number_of_player = action.payload.max_number_of_player;
       state.random_seat = action.payload.random_seat;
@@ -42,7 +48,7 @@ export const slice = createSlice({
       state.user_id = action.payload.user_id;
     });
     builder.addCase(getRoom.rejected, (state, action) => {
-      state.status = 'failed';
+      state.status = FAILED;
       state.error = action.error.message ?? '';
     });
   },

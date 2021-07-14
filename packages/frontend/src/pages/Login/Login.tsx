@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { ROOMLIST_PATH } from '../../config/paths';
 import { ACCESS_TOKEN } from '../../config/localStorage';
-import { LOADING } from '../../config/constants';
+import { LOADING } from '../../config/status';
 import { selectUser, login } from '../../reducers/user';
 import {
   LoginContainer as Container,

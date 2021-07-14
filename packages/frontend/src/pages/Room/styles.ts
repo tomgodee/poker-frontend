@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import {
-  Backdrop,
   Dialog,
+  Backdrop,
+  CircularProgress,
 } from '@material-ui/core';
 import backGroundMain from '../../assets/Back_Ground_Main.jpg';
+import { rose } from '../../themes/colors';
 
 export const FlexContainer = styled.div`
   display: flex;
@@ -25,3 +27,11 @@ export const RoomContainer = styled.div`
 export const BuyInDialog = styled(Dialog)`
 
 ` as typeof Dialog;
+
+export const LoadingOverlay = styled(Backdrop)`
+  z-index: 1;
+`;
+
+export const LoadingIcon = styled(CircularProgress)`
+  color: ${rose};
+` as typeof CircularProgress;
