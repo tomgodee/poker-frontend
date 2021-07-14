@@ -6,7 +6,7 @@ import {
   Slider,
   Input,
 } from '@material-ui/core';
-import { mintCream, gray, white, green, black, blackPearl, tarawera, charcoal, arapawa } from '../../themes/colors';
+import { mintCream, gray, white, prussianBlue, black, blackPearl, charcoal, arapawa } from '../../themes/colors';
 import backgroundTable from '../../assets/tomPoker.png';
 
 export const TableContainer = styled.div`
@@ -86,7 +86,7 @@ export const TableButton = styled(Button) <ButtonProps>`
   &.Mui-disabled {
     color: ${gray};
     background:  ${blackPearl};
-    background: linear-gradient(to right,${arapawa}, ${tarawera}, ${blackPearl});
+    background: linear-gradient(to right,${arapawa}, ${prussianBlue}, ${blackPearl});
   }
   color: ${white};
   width: 22%;
@@ -101,15 +101,15 @@ export const MoneyInput = styled(Input)`
   text-align: right;
   color: ${white};
   &:hover:not(.Mui-disabled):before {
-    border-bottom: 2px solid ${green};
+    border-bottom: 2px solid ${prussianBlue};
   }
   
   &.MuiInput-underline:before {
-    border-bottom: 2px solid ${green};
+    border-bottom: 2px solid ${prussianBlue};
   }
   
   &.MuiInput-underline:after {
-    border-bottom: 2px solid ${green};
+    border-bottom: 2px solid ${prussianBlue};
   }
 ` as typeof Input;
 

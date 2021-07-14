@@ -14,7 +14,6 @@ export const orange = '#F4A261';
 export const black = '#000000';
 export const borderChatContainer = '#414345';
 export const blackPearl = '#0F2027';
-export const tarawera = '#203A43';
 export const charcoal = '#434343';
 export const arapawa = '#2C5364';
 export const balihai = '#859398';
@@ -34,7 +33,6 @@ export default {
   red,
   borderChatContainer,
   blackPearl,
-  tarawera,
   arapawa,
   balihai,
   bunting,

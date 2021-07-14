@@ -1,11 +1,9 @@
-import React, { useEffect, useRef, useState, MutableRefObject } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { io, Socket } from 'socket.io-client';
 import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 import {
-  Typography,
-} from '@material-ui/core';
-import {
+  BuyInDialog,
   FlexContainer,
   RoomContainer,
 } from './styles';

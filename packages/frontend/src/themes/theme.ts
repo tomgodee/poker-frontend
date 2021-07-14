@@ -7,12 +7,12 @@ import orange from '@material-ui/core/colors/orange';
 import { green, rose, blusSapphire, mintCream } from './colors';
 
 const primary = {
-  main: green,
+  main: blusSapphire,
   contrastText: mintCream,
 };
 
 const secondary = {
-  main: blusSapphire,
+  main: green,
   constrastText: mintCream,
 };
 

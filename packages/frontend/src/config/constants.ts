@@ -83,3 +83,5 @@ export const DEFAULT_POT = {
   sidePot: false,
   excludedPlayers: [],
 };
+
+export const LOADING = 'loading';

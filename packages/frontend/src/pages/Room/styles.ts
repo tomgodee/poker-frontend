@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 import {
-  Button,
-  Input,
-  Typography,
+  Backdrop,
+  Dialog,
 } from '@material-ui/core';
-import { green, salmon } from '../../themes/colors';
 import backGroundMain from '../../assets/Back_Ground_Main.jpg';
 
 export const FlexContainer = styled.div`
@@ -23,3 +21,7 @@ export const RoomContainer = styled.div`
   display: flex;
   flex: 1 0 auto;
 `;
+
+export const BuyInDialog = styled(Dialog)`
+
+` as typeof Dialog;

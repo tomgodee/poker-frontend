@@ -4,7 +4,7 @@ import {
   Input,
   Typography,
 } from '@material-ui/core';
-import { green, salmon } from '../../themes/colors';
+import { prussianBlue, salmon } from '../../themes/colors';
 
 export const FlexContainer = styled.div`
   display: flex;

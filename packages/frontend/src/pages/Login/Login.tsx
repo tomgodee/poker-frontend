@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { ACCESS_TOKEN } from '../../config/localStorage';
+import { LOADING } from '../../config/constants';
 import { selectUser, login } from '../../reducers/user';
 import {
   LoginContainer as Container,
@@ -13,6 +14,8 @@ import {
   LoginCardMedia as CardMedia,
   LoginTextField as TextField,
   LoginForm as Form,
+  LoadingOverlay,
+  LoadingIcon,
 } from './styles';
 import { logo } from '../../assets';
 import { LoginForm } from '../../types/user';
@@ -26,7 +29,6 @@ const Login = () => {
   const history = useHistory();
   const user = useSelector(selectUser);
 
-  // eslint-disable-next-line no-unused-vars
   const { handleSubmit, control, formState: { errors } } = useForm<LoginForm>({
     defaultValues: {
       username: '',
@@ -49,6 +51,10 @@ const Login = () => {
 
   return (
     <Container>
+      <LoadingOverlay open={user.status === LOADING}>
+        <LoadingIcon />
+      </LoadingOverlay>
+
       <ContainerGrid container>
         <ItemGrid item xs={12} md={7}>
           <Card>

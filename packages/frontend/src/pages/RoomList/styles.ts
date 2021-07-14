@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Card from '@material-ui/core/Card';
 import Skeleton from '@material-ui/lab/Skeleton';
-import { blackPearl, gray, green, tarawera, white } from '../../themes/colors';
+import { blackPearl, gray, prussianBlue, white } from '../../themes/colors';
 
 export const Container = styled.div`
   display: flex;
@@ -31,7 +31,7 @@ export const RoomContainer = styled(Card)`
   .MuiCardContent-root {
     border-top: 1px solid ${blackPearl};
     background: ${blackPearl};
-    background: linear-gradient(to right,#2C5364,${tarawera},${blackPearl});
+    background: linear-gradient(to right,#2C5364,${prussianBlue},${blackPearl});
   }
 
   .MuiTypography-root {

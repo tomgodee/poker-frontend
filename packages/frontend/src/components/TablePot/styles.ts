@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import {
   Typography,
 } from '@material-ui/core';
-import { mintCream, green } from '../../themes/colors';
+import { mintCream, prussianBlue } from '../../themes/colors';
 
 export const TablePotContainer = styled.div`
   display: flex;
@@ -38,7 +38,7 @@ export const Chip = styled.div<ChipProps>`
   width: 22px;
   height: 22px;
   background-color: white;
-  border: 2px solid ${green};
+  border: 2px solid ${prussianBlue};
   border-radius: 50%;
 `;
 
@@ -53,7 +53,7 @@ export const ChipInnerRing = styled.div`
   width: 20px;
   height: 20px;
   background-color: white;
-  border: 1px solid ${green};
+  border: 1px solid ${prussianBlue};
   border-radius: 50%;
 `;
 
