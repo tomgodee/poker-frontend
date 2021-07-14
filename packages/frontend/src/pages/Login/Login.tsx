@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
+import { ROOMLIST_PATH } from '../../config/paths';
 import { ACCESS_TOKEN } from '../../config/localStorage';
 import { LOADING } from '../../config/constants';
 import { selectUser, login } from '../../reducers/user';
@@ -45,7 +46,7 @@ const Login = () => {
   useEffect(() => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     if (accessToken) {
-      history.push('/roomlist');
+      history.push(ROOMLIST_PATH);
     }
   }, [user]);
 

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, Switch, Route, Redirect } from 'react-router-dom';
-import {
-  Divider,
-} from '@material-ui/core';
+import { REDUX_PAGE_PATH, ROOMLIST_PATH, ROOM_PATH, LOGIN_PATH } from '../../config/paths';
 import { ACCESS_TOKEN } from '../../config/localStorage';
 import ReduxPage from '../ReduxPage';
 import RoomList from '../RoomList';
@@ -47,7 +45,7 @@ const Dashboard = () => {
   useEffect(() => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     if (!accessToken) {
-      history.push('/login');
+      history.push(LOGIN_PATH);
     } else {
       dispatch(verify(accessToken));
     }
@@ -103,11 +101,11 @@ const Dashboard = () => {
 
         <ContentContainer>
           <Switch>
-            <Route path="/aaa" component={ReduxPage} />
-            <Route path="/room/:id" component={Room} />
-            <Route path="/roomlist" component={RoomList} />
+            <Route path={REDUX_PAGE_PATH} component={ReduxPage} />
+            <Route path={`${ROOM_PATH}/:id`} component={Room} />
+            <Route path={ROOMLIST_PATH} component={RoomList} />
             <Route path="/*">
-              <Redirect to="roomlist" />
+              <Redirect to={ROOMLIST_PATH} />
             </Route>
           </Switch>
         </ContentContainer>
