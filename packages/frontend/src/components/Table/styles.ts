@@ -46,18 +46,6 @@ export const TablePotContainer = styled.div`
   transform: translate(-50%,-30%);
 `;
 
-export const TableTitle = styled(Typography)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-transform: uppercase;
-  font-style: italic;
-  font-size: 3rem;
-  opacity: 0.35;
-  color: ${mintCream};
-` as typeof Typography;
-
 export const CommunityCardsContainer = styled.div`
   position: absolute;
   top: 55%;

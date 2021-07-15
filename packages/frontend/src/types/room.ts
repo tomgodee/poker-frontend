@@ -13,3 +13,7 @@ export interface Message {
   content: string;
   roomId: number;
 }
+
+export interface BuyIn {
+  money: number;
+}

@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import {
-  Dialog,
   Backdrop,
   CircularProgress,
 } from '@material-ui/core';
@@ -23,10 +22,6 @@ export const RoomContainer = styled.div`
   display: flex;
   flex: 1 0 auto;
 `;
-
-export const BuyInDialog = styled(Dialog)`
-
-` as typeof Dialog;
 
 export const LoadingOverlay = styled(Backdrop)`
   z-index: 1;

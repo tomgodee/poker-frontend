@@ -4,7 +4,6 @@ import { Socket } from 'socket.io-client';
 import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
 import {
   TableContainer,
-  TableTitle,
   TablePotContainer,
   CommunityCardsContainer,
   Card,
@@ -179,7 +178,7 @@ const Table = (props: TableProps) => {
           <ActionContainer>
             <ButtonsContainer>
               <TableButton
-                color="primary"
+                color="secondary"
                 variant="contained"
                 onClick={fold}
                 disabled={!currentPlayer.user.actions.includes(FOLD) || !currentPlayer.user.isActing}
@@ -187,7 +186,7 @@ const Table = (props: TableProps) => {
                 {FOLD}
               </TableButton>
               <TableButton
-                color="primary"
+                color="secondary"
                 variant="contained"
                 onClick={check}
                 disabled={!currentPlayer.user.actions.includes(CHECK) || !currentPlayer.user.isActing}
@@ -195,7 +194,7 @@ const Table = (props: TableProps) => {
                 {CHECK}
               </TableButton>
               <TableButton
-                color="primary"
+                color="secondary"
                 variant="contained"
                 onClick={call}
                 disabled={!currentPlayer.user.actions.includes(CALL) || !currentPlayer.user.isActing}
@@ -203,7 +202,7 @@ const Table = (props: TableProps) => {
                 {CALL}
               </TableButton>
               <TableButton
-                color="primary"
+                color="secondary"
                 variant="contained"
                 onClick={bet}
                 disabled={!currentPlayer.user.actions.includes(BET)

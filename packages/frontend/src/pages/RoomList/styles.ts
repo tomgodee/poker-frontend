@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 import Card from '@material-ui/core/Card';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { blackPearl, gray, prussianBlue, white } from '../../themes/colors';
 
@@ -47,4 +50,21 @@ export const RoomSkeleton = styled(Skeleton)`
     width: 23%;
     margin: 1%;
   }
+`;
+
+export const BuyInModal = styled(Dialog)`
+  padding: 12px;
+`;
+
+export const BuyInModalContent = styled(DialogContent)``;
+
+export const BuyInModalActions = styled(DialogActions)`
+  display: flex;
+  justify-content: space-around;
+`;
+
+export const InputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
 `;
