@@ -11,9 +11,12 @@ orbs:
   # NOTE: Environment variables containing the necessary secrets can be setup in the CircleCI UI
   # See here https://circleci.com/docs/2.0/env-vars/#setting-an-environment-variable-in-a-project
   aws-s3: circleci/aws-s3@1.0.9
-  aws-cli: circleci/aws-cli@2.0.0
+  aws-cli: circleci/aws-cli@2.0.3
 
 executors:
+  python:
+    docker:
+      - image: cimg/python:3.8
   node:
     docker:
       - image: circleci/node:12
@@ -82,6 +85,7 @@ commands:
 
       - aws-cli/setup:
           profile-name: default
+          version: latest
 
       - aws-s3/sync:
           from: packages/<<parameters.package>>/build
@@ -134,7 +138,7 @@ jobs:
         type: string
       bucket:
         type: string        
-    executor: node
+    executor: python
     working_directory: ~/repo
     environment:
     steps:
