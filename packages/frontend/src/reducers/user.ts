@@ -21,8 +21,8 @@ export const login = createAsyncThunk(`${AUTHENTICATION_URL}/login`, async (data
   return response.data;
 });
 
-export const verify = createAsyncThunk(`${AUTHENTICATION_URL}`, async (token: string) => {
-  const response = await authenticationService.verify(token);
+export const verifyToken = createAsyncThunk(`${AUTHENTICATION_URL}/verifyToken`, async (token: string) => {
+  const response = await authenticationService.verifyToken(token);
   return response.data;
 });
 
@@ -35,15 +35,7 @@ export const slice = createSlice({
     status: IDLE,
     error: '',
   },
-  reducers: {
-    change: (state, action: PayloadAction<UserAction>) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.name = action.payload.name;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(login.pending, (state) => {
       state.status = LOADING;
@@ -59,16 +51,16 @@ export const slice = createSlice({
       state.status = FAILED;
       state.error = action.error.message ?? '';
     });
-    builder.addCase(verify.pending, (state) => {
+    builder.addCase(verifyToken.pending, (state) => {
       state.status = LOADING;
     });
-    builder.addCase(verify.fulfilled, (state, action) => {
+    builder.addCase(verifyToken.fulfilled, (state, action) => {
       state.status = SUCCEEDED;
       state.name = action.payload.name;
       state.money = action.payload.money;
       state.id = action.payload.id;
     });
-    builder.addCase(verify.rejected, (state, action) => {
+    builder.addCase(verifyToken.rejected, (state, action) => {
       state.status = FAILED;
       state.error = action.error.message ?? '';
       localStorage.removeItem(ACCESS_TOKEN);
@@ -77,7 +69,7 @@ export const slice = createSlice({
   },
 });
 
-export const { change } = slice.actions;
+// export const { } = slice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

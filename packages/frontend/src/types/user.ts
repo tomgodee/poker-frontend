@@ -19,7 +19,15 @@ interface LoginForm {
   password: string;
 }
 
+interface Profile {
+  id: number;
+  name: string;
+  money: number;
+  role: string;
+}
+
 export type {
   Player,
   LoginForm,
+  Profile,
 };

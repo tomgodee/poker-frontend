@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, Switch, Route, Redirect } from 'react-router-dom';
-import { REDUX_PAGE_PATH, ROOMLIST_PATH, ROOM_PATH, LOGIN_PATH } from '../../config/paths';
+import { useAppSelector } from '../../store/hooks';
+import { selectUser, verifyToken } from '../../reducers/user';
+import {
+  REDUX_PAGE_PATH, ROOMLIST_PATH, ROOM_PATH,
+  LOGIN_PATH, PROFILE_PATH,
+} from '../../config/paths';
 import { ACCESS_TOKEN } from '../../config/localStorage';
 import ReduxPage from '../ReduxPage';
 import RoomList from '../RoomList';
 import Room from '../Room';
-import { verify } from '../../reducers/user';
+import Profile from '../Profile';
 import {
   HeaderAccountCircle as AccountCircle,
   Header,
@@ -28,7 +33,7 @@ import {
 const Dashboard = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  // const user = useSelector(selectUser);
+  const user = useAppSelector(selectUser);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -42,12 +47,22 @@ const Dashboard = () => {
     setAnchorEl(null);
   };
 
+  const goToProfile = () => {
+    history.push(`${PROFILE_PATH}/${user.id}`);
+  };
+
+  const logout = () => {
+    setAnchorEl(null);
+    localStorage.removeItem(ACCESS_TOKEN);
+    history.push(LOGIN_PATH);
+  };
+
   useEffect(() => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     if (!accessToken) {
       history.push(LOGIN_PATH);
     } else {
-      dispatch(verify(accessToken));
+      dispatch(verifyToken(accessToken));
     }
   }, []);
 
@@ -82,8 +97,8 @@ const Dashboard = () => {
               open={isMenuOpen}
               onClose={handleProfileMenuClose}
             >
-              <HeaderMenuItem onClick={handleProfileMenuClose}>My profile</HeaderMenuItem>
-              <HeaderMenuItem onClick={handleProfileMenuClose}>Log out</HeaderMenuItem>
+              <HeaderMenuItem onClick={goToProfile}>My profile</HeaderMenuItem>
+              <HeaderMenuItem onClick={logout}>Log out</HeaderMenuItem>
             </HeaderMenu>
           </HeaderProfileContainer>
         </Toolbar>
@@ -104,6 +119,7 @@ const Dashboard = () => {
             <Route path={REDUX_PAGE_PATH} component={ReduxPage} />
             <Route path={`${ROOM_PATH}/:id`} component={Room} />
             <Route path={ROOMLIST_PATH} component={RoomList} />
+            <Route path={`${PROFILE_PATH}/:id`} component={Profile} />
             <Route path="/*">
               <Redirect to={ROOMLIST_PATH} />
             </Route>

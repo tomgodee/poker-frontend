@@ -7,7 +7,7 @@ function login(data: LoginForm): any {
   return baseService.post(`${BASE_URL}/login`, data);
 }
 
-function verify(token: string): any {
+function verifyToken(token: string): any {
   return baseService.get(`${BASE_URL}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -17,5 +17,5 @@ function verify(token: string): any {
 
 export default {
   login,
-  verify,
+  verifyToken,
 };

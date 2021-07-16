@@ -4,7 +4,7 @@ import { Room } from '../../types/room';
 
 export const BASE_URL = '/room';
 
-function getAll(): Promise<Room[]> {
+function getAll(): Promise<AxiosResponse<Room[]>> {
   return baseService.get(`${BASE_URL}`);
 }
 
