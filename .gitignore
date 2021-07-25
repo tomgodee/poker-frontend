@@ -106,3 +106,5 @@ dist
 .DS_Store
 .vscode
 build
+
+DEVNOTE.md

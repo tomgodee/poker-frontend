@@ -16,7 +16,7 @@ orbs:
 executors:
   python:
     docker:
-      - image: cimg/python:3.8
+      - image: cimg/python:3.9.6-node
   node:
     docker:
       - image: circleci/node:12

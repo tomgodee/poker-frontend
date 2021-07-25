@@ -1,52 +1,23 @@
-cd packages
-npx create-react-app frontend --template typescript
-yarn eject
-delete all lock files and node_modules
+# An SPA for playing poker
 
-add to root's package.json
-  "workspaces": [
-    "packages/*"
-  ],
-  "private": true,
+## Architecture:
+* Monorepo using yarn workspace
+* `frontend`: application for playing poker
+* `admin`: an application for administering stats, users...
 
-npm install eslint --save-dev
-npx eslint --init
+## Tech Stack:
+* ReactJS + Typescript
+* Redux
+* Styled-component
+* Socket.io
 
-no longer can start
-config eslintrc.json
-delete all lock files and node_modules
-yarn install
-put .eslintrc.json on each package
-restart vscode
-can start again
+## Deployment:
 
-config circleci
-  - install
-  - linting
-  - testing
-  - building
-  - upload to s3
-create aws s3 buckets for each package
-  - allow public objects permission
-  - enable static web hosting
+### CI/CD:
+* Auto deployment with CircleCI, when a new commit is pushed to branch:
 
-Creating protected route 
-  - https://stackoverflow.com/questions/47747754/how-to-rewrite-the-protected-private-route-using-typescript-and-react-router-4
+  * `develop`, main application will be deployed to `d2s10as78akinj.cloudfront.net`
+  <!-- * `admin`, admin application will be deployed to -->
 
-Breakpoints:
-  - xs, extra-small: 0px
-  - sm, small: 600px
-  - md, medium: 960px
-  - lg, large: 1280px
-  - xl, extra-large: 1920px
-
-To make material-UI work with styled-component and typescript:
-  - https://github.com/mui-org/material-ui/issues/13921#issuecomment-484133463
-
-When updating a state that depends on its previous value consider using useReducer hook:
-  - https://stackoverflow.com/a/62541474/9725161
-  - https://reactjs.org/docs/hooks-reference.html#usereducer
-
-From typescript 3.8 you can now import type to avoid circular import
-  - https://github.com/benmosher/eslint-plugin-import/issues/1453
-  - https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html
+### Prod env:
+* Deployed to aws S3 and cloudfront
