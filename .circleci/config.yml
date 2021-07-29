@@ -123,8 +123,8 @@ jobs:
       - run:
           name: "Setup custom environment variables"
           command: |
-            echo "REACT_APP_API_BASE_URL=https://13.229.65.159:2000" >> ${ENV_FILE_PATH}
-            echo "REACT_APP_WS_BASE_URL=https://13.229.65.159:2000" >> ${ENV_FILE_PATH}
+            echo "REACT_APP_API_BASE_URL=https://server.pokermonz.com:2000" >> ${ENV_FILE_PATH}
+            echo "REACT_APP_WS_BASE_URL=https://server.pokermonz.com:2000" >> ${ENV_FILE_PATH}
       - lint:
           package: <<parameters.package>>
       - test
