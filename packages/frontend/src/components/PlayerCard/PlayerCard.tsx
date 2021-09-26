@@ -17,7 +17,7 @@ const getPlayerPosition = (position: number): any => {
   switch (position) {
     case 1:
       return {
-        left: 50,
+        left: 51,
         top: 107,
       };
     case 2:
